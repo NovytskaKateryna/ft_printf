@@ -14,7 +14,7 @@
 
 int		get_char_bytes(unsigned int ch)
 {
-	if (ch <= 127)
+	if (ch <= 127 || (ch <= 256 && MB_CUR_MAX == 1))
 		return (1);
 	else if (ch >= 128 && ch <= 2047)
 		return (2);
