@@ -108,10 +108,11 @@ void 	manage_precision(t_p *p)
 
 //	printf("prec->%i\n", p->f.precision);
 //	printf("len->%i\n", p->value_len);
+//	printf("output->|%s|\n", p->output);
 	if (p->value_len <= p->f.precision && p->f.conversion != 's')
 	{
 		(p->f.width >= p->f.precision) ? (start = p->f.width - p->f.precision) :
-								(start = p->minus_sign + p->prefix);
+								(start = p->minus_sign + p->prefix + p->space);
 		(p->f.width >= p->f.precision) ? (end = p->f.width - p->value_len) :
 								(end = p->f.precision - p->value_len + p->minus_sign + p->prefix);
 		if ((p->minus_sign || !(p->left_justify)) && p->f.width)
@@ -121,13 +122,13 @@ void 	manage_precision(t_p *p)
 				// printf("pos->%i\n", p->f.width - p->f.precision - p->minus_sign);
 				if (p->minus_sign)
 					p->output[start - p->minus_sign] = '-';
-				end += p->minus_sign;
+				end += (p->minus_sign + p->space);
 			//	printf("start->%i end->%i\n", start, end);
 				while (start < end)
 					p->output[start++] = '0';
 				j = p->minus_sign;
-				//printf("j->end->%i\n", end);
-				while (end < p->f.precision + p->minus_sign + p->prefix)
+		//		printf("j->end->%i\n", end);
+				while (end < p->f.precision + p->minus_sign + p->prefix + p->space)
 					p->output[end++] = p->value[j++];
 			}
 		else if (p->left_justify || !(p->f.width))

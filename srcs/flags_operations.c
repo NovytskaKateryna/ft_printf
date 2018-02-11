@@ -62,7 +62,7 @@ void 	space_production(t_p *p)
 {
 	if (p->space && !(p->minus_sign) && p->f.conversion != '%' &&
 		p->f.conversion != 0 && !(p->plus_sign) && !(p->pointer) && p->f.conversion != 'c')
-		p->output[0] = ' ';
+			p->output[0] = ' ';
 }
 
 void 	alternative_output(t_p *p)
