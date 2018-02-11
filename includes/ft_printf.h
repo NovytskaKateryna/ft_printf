@@ -41,10 +41,8 @@ typedef struct	s_p
 	int 		flags;
 	char 		*value;
 	int 		value_len;
-	char 		*output;
+	char 		output[2048];
 	int 		out_len;
-	char 		*format;
-	int 		format_len;
 	void 		*arg;
 	t_f  		f;
 }   			t_p;
@@ -54,7 +52,7 @@ typedef int 	(*f_analizer)(t_p *p, va_list arg, f_operation *oper);
 
 int			ft_printf(const char *format, ...);
 
-int			output_length(const char *f, va_list ar);
+int			output_length(const char *f, va_list ar, t_p *p);
 void		char_conversion_specifiers(t_f *p, va_list ar, char sp);
 void		string_conversion_specifiers(t_f *p, va_list ar, char sp);
 void		int_conversion_specifiers(t_f *p, va_list ar, char sp);
@@ -71,7 +69,7 @@ size_t		ft_strlen(const char *s);
 int			ft_atoi(const char *str);
 void		ft_bzero(void *s, size_t n);
 char		*ft_strdup(const char *s1);
-char 		*ft_strcpy(char *dst, const char *src);
+void		ft_strdel(char **as);
 
 //check
 int 		f_conversion(char f);
@@ -104,12 +102,12 @@ void 		manage_precision(t_p *p);
 void 		string_precision(t_p *p, int start, int end, int j);
 
 //utils
-char 		*capital_hex(char *s);
+void 		capital_hex(char *s);
 void 		put_marks(t_p *p, int i);
 void 		manage_operations(t_p *p, f_operation *oper);
 
 //initialize
-t_p 		*p_initialise(const char *format);
+t_p 		*p_initialise(void);
 void		output_analize(t_p *p, va_list ar);
 void		reset_values(t_p *p);
 

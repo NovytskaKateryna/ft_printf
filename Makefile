@@ -15,7 +15,7 @@ NAME = libftprintf.a
 SRCS_PATH = srcs
 OBJS_PATH = objs
 SRCS = ft_printf.c arg_analize.c check.c conversions1.c conversions2.c\
-			for_digits.c ft_strlen.c ft_strdup.c ft_strcpy.c\
+			for_digits.c ft_strlen.c ft_strdup.c ft_strdel.c\
 			ft_atoi.c ft_bzero.c flags_operations.c width_precision.c \
 			utils.c initialize.c modifiers.c for_wide_char.c
 LIBFT = ./libft/libft.a

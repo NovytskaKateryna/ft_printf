@@ -14,7 +14,7 @@
 
 int		get_char_bytes(unsigned int ch)
 {
-	if (ch <= 127 || (ch <= 256 && MB_CUR_MAX == 1))
+	if (ch <= 127 || (ch < 256 && MB_CUR_MAX == 1))
 		return (1);
 	else if (ch >= 128 && ch <= 2047)
 		return (2);
@@ -79,6 +79,7 @@ int 	manage_wide_char_operations(t_p *p, unsigned int *str)
 			p->output[i] = ' ';
 		p->value_len = ft_strlen(p->output);
 		p->out_len += p->value_len;
+	//	printf("output->|%s| len->%i\n", p->output, p->value_len);
 		write(1, p->output, p->value_len);
 	}
 	return (len);
@@ -105,8 +106,10 @@ void 	get_wide_char(t_p *p)
 		if (p->f.precision || p->precision)
 			len = manage_wide_char_operations(p, str);
 		i = -1;
+	//	printf("{len->%i}\n", len);
 		while (++i < len)
 		{
+	//		printf("i->%i\n", i);
 			write_wide_char((unsigned int)str[i]);
 			p->out_len += get_char_bytes((unsigned int)str[i]);
 		}
@@ -129,7 +132,10 @@ int 	get_value_len(t_p *p)
 		while (str[len])
 			len++;
 		while (++i < len)
-			p->value_len += get_char_bytes((unsigned int)str[i]);
+			{
+				//printf("i->%i\n", i);
+				p->value_len += get_char_bytes((unsigned int)str[i]);
+			}
 	}
 	return (p->value_len);
 }

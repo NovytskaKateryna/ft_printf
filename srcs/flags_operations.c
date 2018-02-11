@@ -19,15 +19,14 @@ void 	zero_padding(t_p *p)
 
 	j = p->f.width;
 	end = p->plus_sign;
-	//printf("output->|%s| len->%i width->%i\n", p->output, p->value_len, p->f.width);
 	if (p->left_justify || p->f.precision)
 		return ;
 	if (p->prefix)
 		end = p->prefix + p->value_len;
 	else if (p->plus_sign)
 		end += p->value_len;
-	//printf("j->%i end->%i\n", j, end);
-	while (j-- > end)
+	// printf("seg\n");
+	while (j-- > end && (j - p->value_len) >= 0)
 		{
 		//	printf("p->%i\n", j - p->value_len);
 			p->output[j - p->value_len] = '0';
@@ -35,9 +34,13 @@ void 	zero_padding(t_p *p)
 	//printf("output->|%s|\n", p->output);
 	if (p->minus_sign)
 	{
+		//printf("value_len->%i\n", p->value_len);
 		p->output[0] = '-';
-		p->output[p->f.width - p->value_len] = '0';
+		//printf("res->%i\n", p->f.width - p->value_len);
+		if (p->f.width - p->value_len > 0)
+			p->output[p->f.width - p->value_len] = '0';
 	}
+//	printf("value_len->%i\n", p->value_len);
 //	printf("output->|%s|\n", p->output);
 }
 
@@ -57,7 +60,7 @@ void 	sign_production(t_p *p)
 
 void 	space_production(t_p *p)
 {
-	if (!(p->minus_sign) && p->f.conversion != '%' &&
+	if (p->space && !(p->minus_sign) && p->f.conversion != '%' &&
 		p->f.conversion != 0 && !(p->plus_sign) && !(p->pointer) && p->f.conversion != 'c')
 		p->output[0] = ' ';
 }

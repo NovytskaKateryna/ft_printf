@@ -39,7 +39,7 @@ int	main(int ac, char **av)
 	// 	ft_printf("%s\n", line);
 
  	
-	// setlocale(LC_ALL, "");                       //sets or reads location dependent information.
+	setlocale(LC_ALL, "");                       //sets or reads location dependent information.
 	ch = (void*)malloc(sizeof(void));            
 //	printf("\nMY PRINTF:\n");
 	// printf("negative digits:\n");
@@ -299,8 +299,9 @@ int	main(int ac, char **av)
 	// printf("     %d\n", 42);
 	// my_ret = ft_printf("%d", -42);
 	// printf("     %d\n", -42);
-	// my_ret = ft_printf("before %d after", 42);
-	// printf("     before %d after\n", 42);
+	// my_ret = ft_printf("|before %d after|", 42);
+	// f_ret = printf("|before %d after|", 42);
+	// printf("\nmy_ret->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("%d%d%d%d%d", 1, -2, 3, -4, 5);
 	// printf("     %d%d%d%d%d\n", 1, -2, 3, -4, 5);
 	// my_ret = ft_printf("a%db%dc%dd", 1, -2, 3);
@@ -359,22 +360,23 @@ int	main(int ac, char **av)
 	//07
 	// my_ret = ft_printf("%S", L"米");
 	// f_ret = printf("%S", L"米");
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("%S", L"我是一只猫。");
 	// f_ret = printf("%S", L"我是一只猫。");
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S",
 	// L"Α α", L"Β β", L"Γ γ", L"Δ δ", L"Ε ε", L"Ζ ζ", L"Η η", L"Θ θ", L"Ι ι", L"Κ κ", L"Λ λ", L"Μ μ",
 	// L"Ν ν", L"Ξ ξ", L"Ο ο", L"Π π", L"Ρ ρ", L"Σ σ", L"Τ τ", L"Υ υ", L"Φ φ", L"Χ χ", L"Ψ ψ", L"Ω ω", L"");
 	// f_ret = printf("%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S%S",
 	// L"Α α", L"Β β", L"Γ γ", L"Δ δ", L"Ε ε", L"Ζ ζ", L"Η η", L"Θ θ", L"Ι ι", L"Κ κ", L"Λ λ", L"Μ μ",
 	// L"Ν ν", L"Ξ ξ", L"Ο ο", L"Π π", L"Ρ ρ", L"Σ σ", L"Τ τ", L"Υ υ", L"Φ φ", L"Χ χ", L"Ψ ψ", L"Ω ω", L"");
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|a%Sb%sc%S|", L"我", "42", L"猫");
 	// f_ret = printf("|a%Sb%sc%S|", L"我", "42", L"猫");
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("{%S}", NULL);
-	// printf("       {%S}\n", NULL);
+	// f_ret = printf("{%S}", NULL);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 
 	//08
 	// my_ret = ft_printf("%D", 0L);
@@ -489,9 +491,11 @@ int	main(int ac, char **av)
 
 	//17
 // 	my_ret = ft_printf("%C", 'c');
-// 	f_ret = printf("		%C\n", 'c');
+// 	f_ret = printf("%C", 'c');
+// 	printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 // 	my_ret = ft_printf("%C%C", '4', '2');
-// 	f_ret = printf("		%C%C\n", '4', '2');
+// 	f_ret = printf("%C%C", '4', '2');
+// 	printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 // 	my_ret = ft_printf("%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C \
 // %C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C\
 // %C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C",
@@ -502,9 +506,9 @@ int	main(int ac, char **av)
 // 'X', 'Y', 'Z', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e',
 // 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
 // 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}');
-// 	f_ret = printf("		%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C \
+// 	f_ret = printf("%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C \
 // %C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C\
-// %C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C\n",
+// %C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C",
 // ' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-',
 // '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';',
 // '<', '=', '>', '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
@@ -512,25 +516,25 @@ int	main(int ac, char **av)
 // 'X', 'Y', 'Z', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e',
 // 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
 // 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}');
-// 	printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+// 	printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 // 	my_ret = ft_printf("%C", L'猫');
-// 	f_ret = printf("%C\n", L'猫');
-// 	printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+// 	f_ret = printf("%C", L'猫');
+// 	printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 // 	my_ret = ft_printf("%C", L'δ');
-// 	f_ret = printf("%C\n", L'δ');
-// 	printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+// 	f_ret = printf("%C", L'δ');
+// 	printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 // 	my_ret = ft_printf("%C", L'요');
-// 	f_ret = printf("%C\n", L'요');
-// 	printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+// 	f_ret = printf("%C", L'요');
+// 	printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 // 	my_ret = ft_printf("%C", L'莨');
-// 	f_ret = printf("%C\n", L'莨');
-// 	printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+// 	f_ret = printf("%C", L'莨');
+// 	printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 // 	my_ret = ft_printf("|%C|", L'ي');
-// 	f_ret = printf("|%C|\n", L'ي');
-// 	printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+// 	f_ret = printf("|%C|", L'ي');
+// 	printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 // 	my_ret = ft_printf("%C", 0);
-// 	f_ret = printf("%C\n", 0);
-// 	printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+// 	f_ret = printf("%C", 0);
+// 	printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 
 
 	//18
@@ -546,6 +550,7 @@ int	main(int ac, char **av)
 	// my_ret = ft_printf("%ld%ld", 0, 42);
 	// f_ret = printf("%ld%ld", 0, 42);
 	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	
 	//41
 	// my_ret = ft_printf("%lld%lld", 0, 42);
 	// f_ret = printf("     %lld%lld\n", 0, 42);
@@ -662,7 +667,7 @@ int	main(int ac, char **av)
 	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("{%05p}", 0);
 	// f_ret = printf("{%05p}\n", 0);
-	//printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	//pointer_valueLargerThanMinWidth_zeroFlag();
 
 	//53
@@ -789,95 +794,95 @@ int	main(int ac, char **av)
 
 	//70
 	// my_ret = ft_printf("|%.4d|", 42);
-	// f_ret = printf("|%.4d|\n", 42);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%.4d|", 42);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%.4d|", 424242);
-	// f_ret = printf("|%.4d|\n", 424242);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%.4d|", 424242);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%.4d|", -424242);
-	// f_ret = printf("|%.4d|\n", -424242);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
-	// my_ret = ft_printf("|%15.4d|", 42);
-	// f_ret = printf("|%15.4d|\n", 42);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%.4d|", -424242);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	my_ret = ft_printf("|%15.4d|", 42);
+	f_ret = printf("|%15.4d|", 42);
+	printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%15.4d|", 424242);
-	// f_ret = printf("|%15.4d|\n", 424242);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%15.4d|", 424242);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%8.4d|", 424242424);
-	// f_ret = printf("|%8.4d|\n", 424242424);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%8.4d|", 424242424);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%15.4d|", -42);
-	// f_ret = printf("|%15.4d|\n", -42);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%15.4d|", -42);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%15.4d|", -424242);
-	// f_ret = printf("|%15.4d|\n", -424242);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%15.4d|", -424242);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%8.4d|", -424242424);
-	// f_ret = printf("|%8.4d|\n", -424242424);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
-	// my_ret = ft_printf("|%4.15d|", 42);
-	// f_ret = printf("|%4.15d|\n", 42);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%8.4d|", -424242424);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	my_ret = ft_printf("|%4.15d|", 42);
+	f_ret = printf("|%4.15d|", 42);
+	printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%4.15d|", 424242);
-	// f_ret = printf("|%4.15d|\n", 424242);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%4.15d|", 424242);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%4.8d|", 424242424);
-	// f_ret = printf("|%4.8d|\n", 424242424);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%4.8d|", 424242424);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%4.15d|", -42);
-	// f_ret = printf("|%4.15d|\n", -42);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%4.15d|", -42);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%4.15d|", -424242);
-	// f_ret = printf("|%4.15d|\n", -424242);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%4.15d|", -424242);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%4.8d|", -424242424);
-	// f_ret = printf("|%4.8d|\n", -424242424);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%4.8d|", -424242424);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%.d, %.0d|", 0, 0);
-	// f_ret = printf("|%.d, %.0d|\n", 0, 0);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%.d, %.0d|", 0, 0);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%.10d|", -42);
-	// f_ret = printf("|%.10d|\n", -42);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%.10d|", -42);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%.4i|", 42);
-	// f_ret = printf("|%.4i|\n", 42);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
-	// my_ret = ft_printf("|%15.4i|", 42);
-	// f_ret = printf("|%15.4i|\n", 42);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%.4i|", 42);
+	//	printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	my_ret = ft_printf("|%15.4i|", 42);
+	f_ret = printf("|%15.4i|", 42);
+	printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%4.15i|", 42);
-	// f_ret = printf("|%4.15i|\n", 42);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%4.15i|", 42);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%.i, %.0i|", 0, 0);
-	// f_ret = printf("|%.i, %.0i|\n", 0, 0);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%.i, %.0i|", 0, 0);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%.4u|", 42);
-	// f_ret = printf("|%.4u|\n", 42);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%.4u|", 42);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%.4u|", 424242);
-	// f_ret = printf("|%.4u|\n", 424242);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%.4u|", 424242);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%15.4u|", 42);
-	// f_ret = printf("|%15.4u|\n", 42);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%15.4u|", 42);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%15.4u|", 424242);
-	// f_ret = printf("|%15.4u|\n", 424242);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%15.4u|", 424242);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%8.4u|", 424242424);
-	// f_ret = printf("|%8.4u|\n", 424242424);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%8.4u|", 424242424);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%4.15u|", 42);
-	// f_ret = printf("|%4.15u|\n", 42);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%4.15u|", 42);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%4.15u|", 424242);
-	// f_ret = printf("|%4.15u|\n", 424242);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%4.15u|", 424242);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%4.8u|", 424242424);
-	// f_ret = printf("|%4.8u|\n", 424242424);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%4.8u|", 424242424);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%.u, %.0u|", 0, 0);
-	// f_ret = printf("|%.u, %.0u|\n", 0, 0);
-	// printf("my_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// f_ret = printf("|%.u, %.0u|", 0, 0);
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 
 	// //72
 	// my_ret = ft_printf("|%.4s|", "42");
@@ -1004,9 +1009,9 @@ int	main(int ac, char **av)
 	// f_ret = printf("%llx", 9223372036854775808);
 	// my_ret = ft_printf("|%jx|", -4294967296);
 	// f_ret = printf("|%jx|", -4294967296);
-	my_ret = ft_printf("%C\n", 200);
-	f_ret = printf("%C\n", 200);
-	printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+	// my_ret = ft_printf("|%3h|\t|%3l|\t|%3hhll|\t|%3llhhllQ|\t|%3z|\t|%3j|\t|%3J|");
+	// f_ret = printf("\n|%3h|\t|%3l|\t|%3hhll|\t|%3llhhllQ|\t|%3z|\t|%3j|\t|%3J|");
+	// printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
 	// my_ret = ft_printf("|%jx|", -4294967297);
 	// f_ret = printf("|%jx|\n", -4294967297);
 	// my_ret = ft_printf("|%llx|", 9223372036854775807);
@@ -1052,7 +1057,44 @@ int	main(int ac, char **av)
 	// my_ret = ft_printf("@moulitest:| %5.d %5.0d|", 0, 0);
 	// f_ret = printf("@moulitest:| %5.d %5.0d|\n", 0, 0);
 
-	//sleep(100);
+	// ft_printf("@moulitest: %s", NULL);
+	// printf("@moulitest: %s", NULL);
+
+  // my_ret = ft_printf("|%   %|", "test");
+  // f_ret = printf("|%   %|", "test");
+  // printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+  // my_ret = ft_printf("|%.2s is a string|", "this");
+  // f_ret = printf("|%.2s is a string|", "this");
+  // printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+  // my_ret = ft_printf("|%-.2s is a string|", "this");
+  // f_ret = printf("|%-.2s is a string|", "this");
+  // printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+  // my_ret = ft_printf("|%  +d|", 42);
+  // f_ret = printf("|%  +d|", 42);
+  // printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+  // my_ret = ft_printf("|%  +d|", -42);
+  // f_ret = printf("|%  +d|", -42);
+  // printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+  // my_ret = ft_printf("|%+  d|", 42);
+  // f_ret = printf("|%+  d|", 42);
+  // printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+  // my_ret = ft_printf("|%+  d|", -42);
+  // f_ret = printf("|%+  d|", -42);
+  // printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+  // my_ret = ft_printf("|% ++d|", 42);
+  // f_ret = printf("|% ++d|", 42);
+  // printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+  // my_ret = ft_printf("|% ++d|", -42);
+  // f_ret = printf("|% ++d|", -42);
+  // printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+  // my_ret = ft_printf("|%++ d|", 42);
+  // f_ret = printf("|%++ d|", 42);
+  // printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+  // my_ret = ft_printf("|%++ d|", -42);
+  // f_ret = printf("|%++ d|", -42);
+  // printf("\nmy_ret ->%i f_rt->%i\n", my_ret, f_ret);
+
+//	sleep(200);
 
 	return (0);
 }

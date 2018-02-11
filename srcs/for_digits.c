@@ -12,7 +12,6 @@
 
 #include "ft_printf.h"
 
-
 static int 			ft_size(long long int n, int base)
 {
 	int size;
@@ -43,6 +42,7 @@ char			*f_int_base(long long int n, int base)
 		neg = 1;
 	}
 	size = ft_size(n, base);
+//	printf("size->%i\n", size);
 	if (!(str = (char*)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	str[size + neg] = '\0';
@@ -53,6 +53,7 @@ char			*f_int_base(long long int n, int base)
 	}
 	if (neg)
 		str[0] = '-';
+//	printf("1->%c 2->%c 3->%c|\n", str[0], str[1], str[2]);
 	return (str);
 }
 
@@ -77,17 +78,14 @@ char			*f_unsigned_int(unsigned long long int n, int base)
 	char		*str;
 
 	size = ft_unsigned_size(n, base);
-	//printf("size->%i\n", size);
 	if (!(str = (char*)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
-	while (size-- >= 0)
+	str[size] = '\0';
+	while (size-- > 0)
 	{
 		str[size] = (n % base) + ((n % base) >= 10 ? 'a' - 10 : '0');
 		n = n / base;
 	}
-	//printf("str->%s\n", str);
-	str[size] = '\0';
-//	printf("str->%s\n", str);
 	return (str);
 }
 

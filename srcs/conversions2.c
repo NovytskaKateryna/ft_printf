@@ -18,19 +18,24 @@ int 	wide_char_conversions(t_p *p, va_list ar, f_operation *oper)
 		p->f.conversion == 'S'))
 		return (write(1, "(null)", 6));
 	put_marks(p, ft_strlen(p->f.flags));
+//	printf("value->|%s| output->|%s|\n", p->value, p->output);
 	if (p->left_justify || !(p->f.precision))
 	{
 		(!(p->f.precision) && p->precision) ? p->f.width : (p->f.width -= get_value_len(p));
 		p->value_len = 0;
 		manage_operations(p, oper);
-		(p->f.width && !(p->left_justify)) ? 0 : get_wide_char(p);
+		if (!(p->f.width && !(p->left_justify)))
+		 	get_wide_char(p);
 	}
 	p->value_len = ft_strlen(p->output);
+	//printf("value_len->%i\n", p->value_len);
 	if (p->value_len && !(p->f.precision))
 	{
+		//printf("output->|%s| len->%i\n", p->output, p->value_len);
 		write(1, p->output, p->value_len);
 		p->out_len += p->value_len;
-		(!(p->f.precision) && p->precision) ? (p->f.width = 0) : 0;
+		if (!(p->f.precision) && p->precision)
+			p->f.width = 0;
 	}
 	if (!(p->left_justify) && (p->f.width || p->f.precision))
 		get_wide_char(p);
@@ -45,11 +50,14 @@ int 	char_conversions(t_p *p, va_list ar, f_operation *oper)
 	if ((p->arg = va_arg(ar, void*)) == NULL && ((p->f.conversion == 's' ||
 		p->f.conversion == 'S') && !(p->precision)))
 		return (write(1, "(null)", 6));
+//	printf("value->|%s| output->|%s|\n", p->value, p->output);
 	if (p->f.conversion == 'c')
 		p->value = ft_strdup((char*)&p->arg);
 	else if (p->f.conversion == 's' && p->arg != NULL)
 		p->value = ft_strdup((char*)p->arg);
-	p->value_len = ft_strlen(p->value);
+	//printf("arg->%s value->|%s|\n", p->arg, p->value);
+	if (p->value != NULL)
+		p->value_len = ft_strlen(p->value);
 	if (p->arg == NULL && p->f.width && p->f.conversion == 's')
 		p->value_len = 0;
 	else if (p->f.conversion == 'c')
@@ -60,9 +68,7 @@ int 	char_conversions(t_p *p, va_list ar, f_operation *oper)
 		p->precision = 0;
 	}
 	manage_operations(p, oper);
-	if (p->arg != NULL)
-		p->value_len = ft_strlen(p->output);
-	else
-		p->value_len += ft_strlen(p->output);
+	(p->arg != NULL) ? (p->value_len = ft_strlen(p->output)) :
+			(p->value_len += ft_strlen(p->output));
 	return (p->value_len);
 }

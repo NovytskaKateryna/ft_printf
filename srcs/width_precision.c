@@ -93,9 +93,11 @@ void 	string_precision(t_p *p, int start, int end, int j)
 		end = p->f.precision;
 	if (p->value_len < p->f.precision && !(p->f.width))
 		end = p->value_len;
-//	printf("start->%i end->%i\n", start, end);
+	// printf("output->|%s|\n", p->output);
+	// printf("start->%i end->%i\n", start, end);
 	while (start < end && p->value)
 		p->output[start++] = p->value[j++];
+//	printf("output->|%s|\n", p->output);
 }
 
 void 	manage_precision(t_p *p)

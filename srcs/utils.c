@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char 	*capital_hex(char *s)
+void 	capital_hex(char *s)
 {
 	int i;
 
@@ -22,7 +22,6 @@ char 	*capital_hex(char *s)
 		if (s[i] >= 97 && s[i] <= 102)
 			s[i] -= 32;
 	}
-	return (s);
 }
 
 void 	put_marks(t_p *p, int i)
@@ -61,33 +60,31 @@ void 	manage_operations(t_p *p, f_operation *oper)
 	int j;
 
 	put_marks(p, ft_strlen(p->f.flags));
-	if (p->f.width && p->value_len < p->f.width)          //width
+	if (p->f.width && p->value_len < p->f.width)                //width
 		manage_width(p);
-//	printf("ouput->|%s|\n", p->output);
 	i = ft_strlen(p->f.flags);
-	while (--i >= 0)                                      //flags
+	while (--i >= 0)                                            //flags
 		oper[(int)p->f.flags[i]](p);
 	if (p->f.precision && p->f.conversion == 's')
 		string_precision(p, 0, 0, 0);
 	else if ((!(p->f.width) || p->value_len >= p->f.width) &&
 		p->value != NULL)
 	{
-		//printf("if\n");
+		//printf("outlen->%i\n", p->out_len);
 		j = 0;
 		if (p->plus_sign)
 			i = p->prefix + p->plus_sign - p->minus_sign;
 		else
 			i = p->prefix + p->space;
+	//	printf("value_len->%i\n", p->value_len);
+		//printf("outlen->%i\n", p->out_len);
 		while (j < p->value_len)
 			p->output[i++] = p->value[j++];
+	//	printf("outlen->%i\n", p->out_len);
 	}
-	//printf("output->|%s|\n", p->output);
-	//printf("p->prefix->%i\n", p->prefix);
-//	printf("flags->%i\n", p->flags);
-	if ((p->f.precision && p->value && p->precision))                                  //precision
+//	printf("outlen->%i\n", p->out_len);
+	if ((p->f.precision && p->value && p->precision))           //precision
 		manage_precision(p);
-	//printf("output->|%s|\n", p->output);
 	else if ((!(p->f.precision) && p->precision && !(p->flags)))
 		p->output[p->prefix] = '\0';
-//	printf("output->|%s|\n", p->output);
 }

@@ -35,12 +35,12 @@ int 	write_format(t_p *p, char *format, int j)
 	int i;
 	
 	i = 0;
-	while (f_flags(p->format[j]))                   //[flags]
+	while (f_flags(format[j]))                   //[flags]
 	{
-		p->f.flags[i++] = p->format[j++];
+		p->f.flags[i++] = format[j++];
 		p->flags = 1;
 	}
-	if (f_field_width(p->format[j]))                //[width]
+	if (f_field_width(format[j]))                //[width]
 	{
 		p->f.width = ft_atoi(&format[j]);
 		while (f_field_width(format[j]))
@@ -56,32 +56,37 @@ int 	write_format(t_p *p, char *format, int j)
 	return (write_format2(p, format, j));
 }
 
-int		output_length(const char *f, va_list ar)
+int		output_length(const char *f, va_list ar, t_p *p)
 {
-	t_p 	*p;
 	int 	j;
+	int 	format_len;
+	char 	*format;
 
-	p = p_initialise(f);
 	j = -1;
-	while (++j < p->format_len)
+	format = ft_strdup(f);
+	format_len = ft_strlen(format);
+	//printf("format->|%s| format_len->%i\n", format, format_len);
+	while (++j < format_len)
 	{
-		if (p->format[j] == '%')
+		if (format[j] == '%')
 		{
-			j = write_format(p, p->format, ++j);
-			// printf("flags->%s| width->%i precision->%i modifier->%c conversion->%c\n", p->f.flags, p->f.width, p->f.precision,
+		//	printf("j->%c j->%i\n", p->format[j], j);
+			j = write_format(p, format, ++j);
+			// printf("{flags->%s| width->%i precision->%i modifier->%c conversion->%c}\n", p->f.flags, p->f.width, p->f.precision,
 			// 	p->f.modifier, p->f.conversion);
 			if (!(p->f.conversion))
-				p->value = ft_strdup(&p->format[j]);
+				p->value = ft_strdup(&format[j]);
 			output_analize(p, ar);
 			reset_values(p);
+			//printf("j->%c\n", p->format[j]);
 		}
 		else
 		{
-			write(1, &p->format[j], 1);
+		//	printf("else\n");
+			write(1, &format[j], 1);
 			p->out_len++;
 		}
 	}
-	//ft_strdel(&p->format);
-	free(p);
+	//printf("outlen->%i\n", p->out_len);
 	return (p->out_len);
 }
