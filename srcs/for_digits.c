@@ -6,13 +6,13 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 11:02:25 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/01/25 11:02:26 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/11 16:48:57 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int 			ft_size(long long int n, int base)
+static int		ft_size(long long int n, int base)
 {
 	int size;
 
@@ -30,7 +30,7 @@ static int 			ft_size(long long int n, int base)
 char			*f_int_base(long long int n, int base)
 {
 	int						size;
-	int 					neg;
+	int						neg;
 	char					*str;
 	unsigned long long int	num;
 
@@ -42,22 +42,21 @@ char			*f_int_base(long long int n, int base)
 		neg = 1;
 	}
 	size = ft_size(n, base);
-//	printf("size->%i\n", size);
-	if (!(str = (char*)malloc(sizeof(char) * (size + 1))))
+	if (!(str = (char*)malloc(sizeof(char) * (size + neg + 1))))
 		return (NULL);
-	str[size + neg] = '\0';
-	while (size-- >= neg)
+	str[(size--) + neg] = '\0';
+	while (size + neg >= 0)
 	{
 		str[size + neg] = (num % base) + ((num % base) >= 10 ? 'a' - 10 : '0');
 		num = num / base;
+		size--;
 	}
 	if (neg)
 		str[0] = '-';
-//	printf("1->%c 2->%c 3->%c|\n", str[0], str[1], str[2]);
 	return (str);
 }
 
-static int 			ft_unsigned_size(unsigned long long int n, int base)
+static int		ft_unsigned_size(unsigned long long int n, int base)
 {
 	int size;
 
@@ -88,4 +87,3 @@ char			*f_unsigned_int(unsigned long long int n, int base)
 	}
 	return (str);
 }
-

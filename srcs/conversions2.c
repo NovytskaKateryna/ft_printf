@@ -6,32 +6,30 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/04 16:34:10 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/04 16:34:12 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/11 16:50:57 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int 	wide_char_conversions(t_p *p, va_list ar, f_operation *oper)
+int		wide_char_conversions(t_p *p, va_list ar, t_operation *oper)
 {
 	if ((p->arg = va_arg(ar, void*)) == NULL && (p->f.conversion == 's' ||
 		p->f.conversion == 'S'))
 		return (write(1, "(null)", 6));
 	put_marks(p, ft_strlen(p->f.flags));
-//	printf("value->|%s| output->|%s|\n", p->value, p->output);
 	if (p->left_justify || !(p->f.precision))
 	{
-		(!(p->f.precision) && p->precision) ? p->f.width : (p->f.width -= get_value_len(p));
+		(!(p->f.precision) && p->precision) ? p->f.width :
+			(p->f.width -= get_value_len(p));
 		p->value_len = 0;
 		manage_operations(p, oper);
 		if (!(p->f.width && !(p->left_justify)))
-		 	get_wide_char(p);
+			get_wide_char(p);
 	}
 	p->value_len = ft_strlen(p->output);
-	//printf("value_len->%i\n", p->value_len);
 	if (p->value_len && !(p->f.precision))
 	{
-		//printf("output->|%s| len->%i\n", p->output, p->value_len);
 		write(1, p->output, p->value_len);
 		p->out_len += p->value_len;
 		if (!(p->f.precision) && p->precision)
@@ -43,19 +41,17 @@ int 	wide_char_conversions(t_p *p, va_list ar, f_operation *oper)
 	return (p->value_len);
 }
 
-int 	char_conversions(t_p *p, va_list ar, f_operation *oper)
+int		char_conversions(t_p *p, va_list ar, t_operation *oper)
 {
 	if (p->f.modifier == 'l')
 		return (wide_char_conversions(p, ar, oper));
 	if ((p->arg = va_arg(ar, void*)) == NULL && ((p->f.conversion == 's' ||
 		p->f.conversion == 'S') && !(p->precision)))
 		return (write(1, "(null)", 6));
-//	printf("value->|%s| output->|%s|\n", p->value, p->output);
 	if (p->f.conversion == 'c')
 		p->value = ft_strdup((char*)&p->arg);
 	else if (p->f.conversion == 's' && p->arg != NULL)
 		p->value = ft_strdup((char*)p->arg);
-	//printf("arg->%s value->|%s|\n", p->arg, p->value);
 	if (p->value != NULL)
 		p->value_len = ft_strlen(p->value);
 	if (p->arg == NULL && p->f.width && p->f.conversion == 's')

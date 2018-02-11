@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 16:54:25 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/02 16:54:26 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/11 16:56:52 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	reset_values(t_p *p)
 	ft_bzero(p->f.flags, 5);
 }
 
-t_p 	*p_initialise()
+t_p		*p_initialise(void)
 {
 	t_p *k;
 
@@ -55,7 +55,7 @@ t_p 	*p_initialise()
 	return (k);
 }
 
-void 	array_of_analizers(f_analizer *analizer)
+void	array_ot_analizers(t_analizer *analizer)
 {
 	analizer[0] = &no_conversion_output;
 	analizer['%'] = &persentage;
@@ -75,7 +75,7 @@ void 	array_of_analizers(f_analizer *analizer)
 	analizer['C'] = &wide_char_conversions;
 }
 
-void 	array_of_operation(f_operation *flag_operation)
+void	array_ot_operation(t_operation *flag_operation)
 {
 	flag_operation['-'] = &alternative_output;
 	flag_operation['0'] = &zero_padding;
@@ -86,22 +86,19 @@ void 	array_of_operation(f_operation *flag_operation)
 
 void	output_analize(t_p *p, va_list ar)
 {
-	static f_analizer	*analizer = NULL;
-	static f_operation 	*flag_operation = NULL;
+	static t_analizer	*analizer = NULL;
+	static t_operation	*flag_operation = NULL;
 
 	if (analizer == NULL && flag_operation == NULL)
 	{
-		analizer = (f_analizer*)malloc(sizeof(f_analizer) * 256);
-		flag_operation = (f_operation*)malloc(sizeof(f_operation) * 256);
-		array_of_analizers(analizer);
-		array_of_operation(flag_operation);
+		analizer = (t_analizer*)malloc(sizeof(t_analizer) * 256);
+		flag_operation = (t_operation*)malloc(sizeof(t_operation) * 256);
+		array_ot_analizers(analizer);
+		array_ot_operation(flag_operation);
 	}
-	//printf("{outlen->%i}\n", p->out_len);
 	p->out_len += analizer[(int)p->f.conversion](p, ar, flag_operation);
-//	printf("{outlen->%i}\n", p->out_len);
-	// printf("outlen->%i\n", p->out_len);
-//	printf("{output->|%s| value_len->%i}\n", p->output, p->value_len);
 	if (p->value_len)
 		write(1, p->output, p->value_len);
-	ft_bzero(p->output, 2048);
+	if (p->value)
+		ft_strdel(&p->value);
 }
