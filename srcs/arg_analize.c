@@ -83,5 +83,6 @@ int		output_length(const char *f, va_list ar, t_p *p)
 			p->out_len++;
 		}
 	}
+	ft_strdel(&format);
 	return (p->out_len);
 }

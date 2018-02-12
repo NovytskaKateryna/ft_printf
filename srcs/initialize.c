@@ -37,6 +37,7 @@ t_p		*p_initialise(void)
 	t_p *k;
 
 	k = (t_p*)malloc(sizeof(t_p));
+	// printf("{p->%p\n", k);
 	ft_bzero(k->output, 2048);
 	k->f.conversion = 0;
 	k->out_len = 0;
