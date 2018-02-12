@@ -40,7 +40,7 @@ typedef struct	s_p
 	int			flags;
 	char		*value;
 	int			value_len;
-	char		output[2048];
+	char		output[4096];
 	int			out_len;
 	void		*arg;
 	t_f			f;
