@@ -30,7 +30,49 @@ int		write_format2(t_p *p, char *format, int j)
 	return (j);
 }
 
-int		write_format(t_p *p, char *format, int j)
+int		write_width(t_p *p, char *format, va_list ar, int j)
+{
+	while (f_field_width(format[j]))
+	{
+		if (format[j] == '*')
+		{
+			if ((p->f.width = va_arg(ar, int)) < 0)
+				p->left_justify = 1;
+			p->f.width = ABS(p->f.width);
+			j++;
+		}
+		else
+		{
+			p->f.width = ft_atoi(&format[j]);
+			while (f_field_width(format[j]) && format[j] != '*')
+				j++;
+		}
+	}
+	return (j);
+}
+
+int		write_precision(t_p *p, char *format, va_list ar, int j)
+{
+	if (f_precision(format[j]))
+	{
+		p->precision = 1;
+		if (format[++j] == '*')
+		{
+			if ((p->f.precision = va_arg(ar, int)) < 0)
+			{
+				p->f.precision = 0;
+				p->precision = 0;
+			}
+		}
+		else
+			p->f.precision = ft_atoi(&format[j]);
+		while (f_field_width(format[j]))
+			j++;
+	}
+	return (j);
+}
+
+int		write_format(t_p *p, char *format, va_list ar, int j)
 {
 	int i;
 
@@ -40,19 +82,8 @@ int		write_format(t_p *p, char *format, int j)
 		p->f.flags[i++] = format[j++];
 		p->flags = 1;
 	}
-	if (f_field_width(format[j]))
-	{
-		p->f.width = ft_atoi(&format[j]);
-		while (f_field_width(format[j]))
-			j++;
-	}
-	if (f_precision(format[j]))
-	{
-		p->precision = 1;
-		p->f.precision = ft_atoi(&format[++j]);
-		while (f_field_width(format[j]))
-			j++;
-	}
+	j = write_width(p, format, ar, j);
+	j = write_precision(p, format, ar, j);
 	return (write_format2(p, format, j));
 }
 
@@ -69,11 +100,10 @@ int		output_length(const char *f, va_list ar, t_p *p)
 	{
 		if (format[j] == '%')
 		{
-			j = write_format(p, format, ++j);
+			j = write_format(p, format, ar, ++j);
 			if (!(p->f.conversion))
 				p->value = ft_strdup(&format[j]);
-			// printf("{flags->%s| width->%i precision->%i modifier->%c conversion->%c}\n", p->f.flags, p->f.width, p->f.precision,
-			// 	p->f.modifier, p->f.conversion);
+		//printf("{flags->%s| width->%i precision->%i modifier->%c conversion->%c}\n", p->f.flags, p->f.width, p->f.precision, p->f.modifier, p->f.conversion);
 			output_analize(p, ar);
 			reset_values(p);
 		}

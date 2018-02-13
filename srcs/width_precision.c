@@ -12,16 +12,10 @@
 
 #include "ft_printf.h"
 
-void	manage_width(t_p *p)
+void	manage_width(t_p *p, int start, int j, int end)
 {
-	int start;
-	int j;
-	int end;
-
-	j = 0;
-	start = 0;
 	end = p->f.width - p->value_len;
-	if (p->left_justify)
+	if (p->left_justify && !(p->f.conversion == 'c' && p->value[0] == 0))
 	{
 		start = p->value_len;
 		end = p->f.width;
@@ -35,6 +29,13 @@ void	manage_width(t_p *p)
 	}
 	else
 		end = p->f.width;
+	if (p->f.conversion == 'c' && p->value[0] == 0 && p->left_justify)
+	{
+		write(1, p->value, p->value_len);
+		p->out_len += p->value_len;
+		p->value_len = 0;
+		end = 0;
+	}
 	while (start < end && p->value != NULL)
 		p->output[start++] = p->value[j++];
 }
@@ -63,16 +64,17 @@ void	left_justify_precision(t_p *p, int start, int end, int j)
 
 void	string_precision(t_p *p, int start, int end, int j)
 {
-	start = 0;
 	if (p->f.width > p->f.precision || p->f.precision > p->value_len)
 		end = p->f.width;
-	if (p->f.width > p->f.precision)
+	else
 		end = p->f.precision;
-	if (!(p->f.precision > p->value_len))
-		end = p->value_len;
-	(p->f.width > p->f.precision) ? (end = p->f.width) : (end = p->f.precision);
 	if (p->f.precision > p->value_len)
-		(p->f.width > p->value_len) ? (end = p->f.width) : (end = p->value_len);
+	{
+		if (p->f.width > p->value_len)
+			end = p->f.width;
+		else
+			end = p->value_len;
+	}
 	while (start < end && p->f.width)
 		p->output[start++] = ' ';
 	j = 0;

@@ -37,7 +37,6 @@ t_p		*p_initialise(void)
 	t_p *k;
 
 	k = (t_p*)malloc(sizeof(t_p));
-	// printf("{p->%p\n", k);
 	ft_bzero(k->output, 2048);
 	k->f.conversion = 0;
 	k->out_len = 0;
@@ -74,6 +73,15 @@ void	array_ot_analizers(t_analizer *analizer)
 	analizer['X'] = &unsigned_conversions;
 	analizer['c'] = &char_conversions;
 	analizer['C'] = &wide_char_conversions;
+	analizer['e'] = &exponent_conversions;
+	analizer['E'] = &exponent_conversions;
+	analizer['f'] = &float_conversions;
+	analizer['F'] = &float_conversions;
+	analizer['g'] = &scientific_notation_conversions;
+	analizer['G'] = &scientific_notation_conversions;
+	// analizer['a'] = &hexadecimal_notation_conversions;
+	// analizer['A'] = &hexadecimal_notation_conversions;
+	// analizer['n'] = &int_pointer_conversions;
 }
 
 void	array_ot_operation(t_operation *flag_operation)

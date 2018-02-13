@@ -85,7 +85,7 @@ int		no_conversion_output(t_p *p, va_list ar, t_operation *oper)
 	i = ft_strlen(p->f.flags);
 	put_marks(p, i);
 	if (p->f.width)
-		manage_width(p);
+		manage_width(p, 0, 0, 0);
 	manage_operations(p, oper);
 	p->value_len = ft_strlen(p->output);
 	return (p->value_len);

@@ -68,9 +68,8 @@ void	manage_operations(t_p *p, t_operation *oper)
 	int j;
 
 	put_marks(p, ft_strlen(p->f.flags));
-	//printf("len->%i\n", p->value_len);
 	if (p->f.width && p->value_len < p->f.width)
-		manage_width(p);
+		manage_width(p, 0, 0, 0);
 	i = ft_strlen(p->f.flags);
 	while (--i >= 0)
 		oper[(int)p->f.flags[i]](p);

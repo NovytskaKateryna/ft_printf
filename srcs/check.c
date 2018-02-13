@@ -21,7 +21,7 @@ int		f_flags(char f)
 
 int		f_field_width(char f)
 {
-	if (f >= '0' && f <= '9')
+	if ((f >= '0' && f <= '9') || f == '*')
 		return (1);
 	return (0);
 }
@@ -35,7 +35,7 @@ int		f_precision(char f)
 
 int		f_size_modifier(char f)
 {
-	if (f == 'z' || f == 'j' || f == 'l' || f == 'h')
+	if (f == 'z' || f == 'j' || f == 'l' || f == 'h' || f == 'L')
 		return (1);
 	return (0);
 }
@@ -44,7 +44,9 @@ int		f_conversion(char f)
 {
 	if (f == 'c' || f == 'C' || f == 's' || f == 'S' || f == '%' ||
 		f == 'd' || f == 'i' || f == 'o' || f == 'u' || f == 'x' ||
-		f == 'D' || f == 'O' || f == 'U' || f == 'X' || f == 'p')
+		f == 'D' || f == 'O' || f == 'U' || f == 'X' || f == 'p' ||
+		f == 'f' || f == 'F' || f == 'e' || f == 'E' || f == 'g' ||
+		f == 'G' || f == 'a' || f == 'A' || f == 'n')
 		return (1);
 	return (0);
 }

@@ -14,11 +14,10 @@ NAME = libftprintf.a
 
 SRCS_PATH = srcs
 OBJS_PATH = objs
-SRCS = ft_printf.c arg_analize.c check.c conversions1.c conversions2.c\
-			for_digits.c ft_strlen.c ft_strdup.c ft_strdel.c\
-			ft_atoi.c ft_bzero.c flags_operations.c width_precision.c \
+SRCS = ft_printf.c arg_analize.c check.c conversions1.c conversions2.c conversions3.c\
+			for_digits.c for_f_conv.c for_e_conv.c for_g_conv.c ft_strlen.c ft_strdup.c\
+			ft_strdel.c ft_atoi.c ft_bzero.c flags_operations.c width_precision.c \
 			utils.c initialize.c modifiers.c for_wide_char.c
-LIBFT = ./libft/libft.a
 FLAGS = gcc -Wall -Wextra -Werror
 INCLUDES = -I includes 
 
