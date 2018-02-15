@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 10:21:42 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/11 16:44:00 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/15 16:40:53 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,66 +46,81 @@ typedef struct		s_p
 	int				out_len;
 	void			*arg;
 	unsigned long	fr_part;
-	unsigned long 	i_part;
-	int 			fr_size;
-	int 			zero_fr;
-	int 			i_size;
-	int 			exp;
-	int 			exp_size;
-	int 			dec_point;
-	char 			exp_sign;
+	unsigned long	i_part;
+	int				fr_size;
+	int				zero_fr;
+	int				i_size;
+	int				exp;
+	int				exp_size;
+	int				dec_point;
+	char			exp_sign;
+	long double		num;
 	t_f				f;
 }					t_p;
 
-typedef void	(*t_operation)(t_p *p);
-typedef int		(*t_analizer)(t_p *p, va_list arg, t_operation *oper);
+typedef void		(*t_operation)(t_p *p);
+typedef int			(*t_analizer)(t_p *p, va_list arg, t_operation *oper);
 
-int				ft_printf(const char *format, ...);
-int				output_length(const char *f, va_list ar, t_p *p);
-char			*f_int_base(long long int n, int base);
-char			*f_unsigned_int(unsigned long long int n, int base);
-char			*for_double(t_p *p, long double num);
-char 			*for_exponent(t_p *p, long double num);
-char			*for_g_notation(t_p *p, long double num);
-void 			get_exponent(t_p *p, long double num);
-void 			separate_num(t_p *p, long double num);
-int 			ft_double_size(unsigned long i_p);
-size_t			ft_strlen(const char *s);
-int				ft_atoi(const char *str);
-void			ft_bzero(void *s, size_t n);
-char			*ft_strdup(const char *s1);
-void			ft_strdel(char **as);
-int				f_conversion(char f);
-int				f_size_modifier(char f);
-int				f_precision(char f);
-int				f_field_width(char f);
-int				f_flags(char f);
-int				signed_conversions(t_p *p, va_list ar, t_operation *oper);
-int				unsigned_conversions(t_p *p, va_list ar, t_operation *oper);
-int				persentage(t_p *p, va_list ar, t_operation *oper);
-int				pointer_conversions(t_p *p, va_list ar, t_operation *oper);
-int				no_conversion_output(t_p *p, va_list ar, t_operation *oper);
-int				char_conversions(t_p *p, va_list ar, t_operation *oper);
-int				wide_char_conversions(t_p *p, va_list ar, t_operation *oper);
-int 			float_conversions(t_p *p, va_list ar, t_operation *oper);
-int				exponent_conversions(t_p *p, va_list ar, t_operation *oper);
-int				scientific_notation_conversions(t_p *p, va_list ar, t_operation *oper);
-void			left_justification(t_p *p);
-void			zero_padding(t_p *p);
-void			sign_production(t_p *p);
-void			space_production(t_p *p);
-void			alternative_output(t_p *p);
-void			manage_width(t_p *p, int start, int j, int end);
-void			manage_precision(t_p *p);
-void			string_precision(t_p *p, int start, int end, int j);
-void			capital_hex(char *s);
-void			put_marks(t_p *p, int i);
-void			manage_operations(t_p *p, t_operation *oper);
-t_p				*p_initialise(void);
-void			output_analize(t_p *p, va_list ar);
-void			reset_values(t_p *p);
-void			manage_unsigned_modifier(t_p *p, int base);
-void			manage_decimal_modidfier(t_p *p, int base);
-int				get_value_len(t_p *p);
-void			get_wide_char(t_p *p);
+int					ft_printf(const char *format, ...);
+int					output_length(const char *f, va_list ar, t_p *p);
+char				*f_int_base(long long int n, int base);
+char				*f_unsigned_int(unsigned long long int n, int base);
+char				*for_f_conv(t_p *p, long double num);
+char				*for_e_conv(t_p *p, long double num);
+char				*for_g_conv(t_p *p, long double num);
+char				*for_a_conv(t_p *p, long double num);
+void				get_exponent(t_p *p, long double num);
+void				separate_num(t_p *p, long double num);
+int					i_part_size(t_p *p, unsigned long i_p);
+int					g_size(unsigned long int f_p, t_p *p);
+void				a_size(t_p *p, unsigned long i_p, unsigned long f_p);
+int					exp_size(t_p *p, int exp);
+void				round_fract_for_a(t_p *p);
+int					round_parts_for_g(t_p *p);
+size_t				ft_strlen(const char *s);
+int					ft_atoi(const char *str);
+void				ft_bzero(void *s, size_t n);
+char				*ft_strdup(const char *s1);
+void				ft_strdel(char **as);
+int					f_conversion(char f);
+int					f_size_modifier(char f);
+int					f_precision(char f);
+int					f_field_width(char f);
+int					f_flags(char f);
+int					signed_conversions(t_p *p, va_list ar, t_operation *oper);
+int					unsigned_conversions(t_p *p, va_list ar, t_operation *oper);
+int					persentage(t_p *p, va_list ar, t_operation *oper);
+int					pointer_conversions(t_p *p, va_list ar, t_operation *oper);
+int					no_conversion_output(t_p *p, va_list ar, t_operation *oper);
+int					char_conversions(t_p *p, va_list ar, t_operation *oper);
+int					wide_char_conversions(t_p *p, va_list ar,
+													t_operation *oper);
+int					float_conversions(t_p *p, va_list ar, t_operation *oper);
+int					exponent_conversions(t_p *p, va_list ar, t_operation *oper);
+int					scientific_notation_conversions(t_p *p, va_list ar,
+													t_operation *oper);
+int					hexadecimal_notation_conversions(t_p *p, va_list ar,
+													t_operation *oper);
+int					int_pointer_conversions(t_p *p, va_list ar,
+													t_operation *oper);
+void				left_justification(t_p *p);
+void				zero_padding(t_p *p);
+void				sign_production(t_p *p);
+void				space_production(t_p *p);
+void				alternative_output(t_p *p);
+void				manage_width(t_p *p, int start, int j, int end);
+void				manage_precision(t_p *p);
+void				string_precision(t_p *p, int start, int end, int j);
+void				capital_hex(char *s);
+void				put_marks(t_p *p, int i);
+void				manage_operations(t_p *p, t_operation *oper);
+t_p					*p_initialise(void);
+void				output_analize(t_p *p, va_list ar);
+void				reset_values(t_p *p);
+void				manage_unsigned_modifier(t_p *p, int base);
+void				manage_decimal_modidfier(t_p *p, int base);
+int					check_undefined_behavior(t_p *p, char *format, int k);
+int					write_width(t_p *p, char *format, va_list ar, int j);
+int					get_value_len(t_p *p);
+void				get_wide_char(t_p *p);
 #endif

@@ -103,7 +103,6 @@ int		output_length(const char *f, va_list ar, t_p *p)
 			j = write_format(p, format, ar, ++j);
 			if (!(p->f.conversion))
 				p->value = ft_strdup(&format[j]);
-		//printf("{flags->%s| width->%i precision->%i modifier->%c conversion->%c}\n", p->f.flags, p->f.width, p->f.precision, p->f.modifier, p->f.conversion);
 			output_analize(p, ar);
 			reset_values(p);
 		}

@@ -29,6 +29,12 @@ void	reset_values(t_p *p)
 	p->pointer = 0;
 	p->precision = 0;
 	p->flags = 0;
+	p->i_part = 0;
+	p->fr_part = 0;
+	p->zero_fr = 0;
+	p->dec_point = 0;
+	p->exp = 0;
+	p->num = 0;
 	ft_bzero(p->f.flags, 5);
 }
 
@@ -51,6 +57,12 @@ t_p		*p_initialise(void)
 	k->pointer = 0;
 	k->precision = 0;
 	k->flags = 0;
+	k->i_part = 0;
+	k->fr_part = 0;
+	k->zero_fr = 0;
+	k->dec_point = 0;
+	k->exp = 0;
+	k->num = 0;
 	ft_bzero(k->f.flags, 5);
 	return (k);
 }
@@ -79,9 +91,9 @@ void	array_ot_analizers(t_analizer *analizer)
 	analizer['F'] = &float_conversions;
 	analizer['g'] = &scientific_notation_conversions;
 	analizer['G'] = &scientific_notation_conversions;
-	// analizer['a'] = &hexadecimal_notation_conversions;
-	// analizer['A'] = &hexadecimal_notation_conversions;
-	// analizer['n'] = &int_pointer_conversions;
+	analizer['a'] = &hexadecimal_notation_conversions;
+	analizer['A'] = &hexadecimal_notation_conversions;
+	analizer['n'] = &int_pointer_conversions;
 }
 
 void	array_ot_operation(t_operation *flag_operation)

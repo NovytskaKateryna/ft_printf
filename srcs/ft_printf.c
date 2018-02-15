@@ -22,6 +22,6 @@ int	ft_printf(const char *format, ...)
 	va_start(args_ptr, format);
 	ret = output_length(format, args_ptr, p);
 	va_end(args_ptr);
-	//printf("{p->%p}\n", p);
+	//free(p);
 	return (ret);
 }

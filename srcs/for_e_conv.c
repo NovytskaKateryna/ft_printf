@@ -6,13 +6,13 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 11:54:26 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/13 11:54:27 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/15 15:00:54 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void 	get_exponent(t_p *p, long double num)
+void	get_exponent(t_p *p, long double num)
 {
 	p->exp = 0;
 	if (num > 9.99)
@@ -33,32 +33,28 @@ void 	get_exponent(t_p *p, long double num)
 		}
 		p->exp_sign = '-';
 	}
+	p->num = num;
 }
 
-static	char 	*make_str(t_p *p, char *str, int size, int neg)
+char	*e_str(t_p *p, char *str, int size, int neg)
 {
-	int n;
-	int pres;
-
 	str[size] = '\0';
-	n = -1;
-	pres = p->f.precision;
-	while (++n < p->exp_size)
+	while (p->exp_size--)
 	{
 		str[--size] = (p->exp % 10) + 48;
 		p->exp /= 10;
 	}
 	str[--size] = p->exp_sign;
 	str[--size] = p->f.conversion;
-	while (pres-- > 0 && --size > 0)
+	while (p->fr_size--)
 	{
-		str[size] = (p->fr_part % 10) + 48;
+		str[--size] = (p->fr_part % 10) + 48;
 		p->fr_part /= 10;
 	}
-	str[--size] = '.';
-	while (--size >= 0)
+	p->dec_point ? str[--size] = '.' : size;
+	while (p->i_size--)
 	{
-		str[size] = (p->i_part % 10) + 48;
+		str[--size] = (p->i_part % 10) + 48;
 		p->i_part /= 10;
 	}
 	if (neg)
@@ -66,7 +62,7 @@ static	char 	*make_str(t_p *p, char *str, int size, int neg)
 	return (str);
 }
 
-char 		*for_exponent(t_p *p, long double num)
+char	*for_e_conv(t_p *p, long double num)
 {
 	char	*str;
 	int		size;
@@ -78,15 +74,19 @@ char 		*for_exponent(t_p *p, long double num)
 		num *= (-1);
 		neg = 1;
 	}
-	p->i_part = 0;
-	get_exponent(p, num);
-	separate_num(p, num);
-	if ((p->exp_size = ft_double_size(p->exp)) < 2)
-		p->exp_size = 2;
-	size = ft_double_size(p->i_part) + neg + p->f.precision +
-			p->exp_size + 3;
+	(num != 0.0) ? get_exponent(p, num) : 0;
+	(p->exp == 0) ? (p->exp_sign = '+') : 0;
+	separate_num(p, p->num);
+	p->exp_size = exp_size(p, p->exp);
+	p->fr_size = p->f.precision;
+	i_part_size(p, p->i_part);
+	(!(p->f.precision) && p->precision) ? 0 : (p->dec_point = 1);
+	size = p->i_size + p->fr_size + neg + p->dec_point +
+			p->exp_size + 2;
 	if (!(str = (char*)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
-	str = make_str(p, str, size, neg);
+	str = e_str(p, str, size, neg);
+	if (neg)
+		str[0] = '-';
 	return (str);
 }
