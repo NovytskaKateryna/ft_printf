@@ -63,7 +63,7 @@ int		char_conversions(t_p *p, va_list ar, t_operation *oper)
 		p->value_len = 0;
 		p->precision = 0;
 	}
-//	manage_operations(p, oper);
+	manage_operations(p, oper);
 	(p->arg != NULL) ? (p->value_len = ft_strlen(p->output)) :
 			(p->value_len += ft_strlen(p->output));
 	return (p->value_len);
