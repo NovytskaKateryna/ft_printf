@@ -71,8 +71,8 @@ void	array_ot_analizers(t_analizer *analizer)
 {
 	analizer[0] = &no_conversion_output;
 	analizer['%'] = &persentage;
-	// analizer['s'] = &char_conversions;
-	// analizer['S'] = &wide_char_conversions;
+	analizer['s'] = &char_conversions;
+	analizer['S'] = &wide_char_conversions;
 	analizer['p'] = &pointer_conversions;
 	analizer['d'] = &signed_conversions;
 	analizer['D'] = &signed_conversions;
