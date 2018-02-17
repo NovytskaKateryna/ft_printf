@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: knovytsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/24 10:20:24 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/11 16:57:27 by knovytsk         ###   ########.fr       */
+/*   Created: 2017/10/24 13:31:53 by knovytsk          #+#    #+#             */
+/*   Updated: 2017/11/03 10:16:17 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-
-int	ft_printf(const char *format, ...)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	int		ret;
-	t_p		*p;
-	va_list	args_ptr;
+	int i;
 
-	p = NULL;
-	p = p_initialise(p);
-	va_start(args_ptr, format);
-	ret = output_length(format, args_ptr, p);
-	va_end(args_ptr);
-	return (ret);
+	i = 0;
+	while (s1[i] == s2[i] && (s1[i] != '\0' || s2[i] != '\0'))
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

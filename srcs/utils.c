@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 16:48:57 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/11 17:34:53 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/17 16:02:07 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,25 @@ void	put_marks2(t_p *p)
 	}
 }
 
+int		is_signed_conversion(char conv)
+{
+	if (conv == 'i' || conv == 'd' || conv == 'D' || conv == 'F' ||
+		conv == 'f' || conv == 'e' || conv == 'E' || conv == 'g' ||
+		conv == 'G' || conv == 'a' || conv == 'A')
+		return (1);
+	return (0);
+}
+
 void	put_marks(t_p *p, int i)
 {
 	while (--i >= 0)
 	{
 		if (p->f.flags[i] == '-')
 			p->left_justify = 1;
-		else if (p->f.flags[i] == '+' && (p->f.conversion == 'i' ||
-			p->f.conversion == 'd' || p->f.conversion == 'D'))
+		else if (p->f.flags[i] == '+' && is_signed_conversion(p->f.conversion))
 			p->plus_sign = 1;
 		else if ((p->f.flags[i] == ' ' || p->f.flags[i] == '+') &&
-				(p->f.conversion == 'i' || p->f.conversion == 'd' ||
-				p->f.conversion == 'D') && !(p->minus_sign))
+			is_signed_conversion(p->f.conversion) && !(p->minus_sign))
 			p->space = 1;
 		else if (p->f.flags[i] == '#' && (p->f.conversion == 'o' ||
 			p->f.conversion == 'O') && p->value[0] != '0')
@@ -56,7 +63,8 @@ void	put_marks(t_p *p, int i)
 		else if (p->f.flags[i] == '#' && (((p->f.conversion == 'x' ||
 			p->f.conversion == 'X') && p->value[0] != '0') || p->pointer))
 			p->prefix = 2;
-		else if (p->f.flags[i] == '0')
+		else if (p->f.flags[i] == '0' || (p->f.flags[i] == '0' && (p->f.conversion == 'a' ||
+			p->f.conversion == 'A') && (p->f.precision < p->f.width)))
 			p->zero_pad = 1;
 	}
 	put_marks2(p);

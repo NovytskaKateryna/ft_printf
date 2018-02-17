@@ -21,6 +21,8 @@ int		unsigned_conversions(t_p *p, va_list ar, t_operation *oper)
 		manage_unsigned_modifier(p, 8);
 	else if (p->f.conversion == 'u' || p->f.conversion == 'U')
 		manage_unsigned_modifier(p, 10);
+	else if (p->f.conversion == 'b')
+		manage_unsigned_modifier(p, 2);
 	p->value_len = ft_strlen(p->value);
 	if (!(p->f.precision) && p->precision && !(p->flags))
 	{

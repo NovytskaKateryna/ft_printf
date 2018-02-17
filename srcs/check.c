@@ -46,7 +46,8 @@ int		f_conversion(char f)
 		f == 'd' || f == 'i' || f == 'o' || f == 'u' || f == 'x' ||
 		f == 'D' || f == 'O' || f == 'U' || f == 'X' || f == 'p' ||
 		f == 'f' || f == 'F' || f == 'e' || f == 'E' || f == 'g' ||
-		f == 'G' || f == 'a' || f == 'A' || f == 'n')
+		f == 'G' || f == 'a' || f == 'A' || f == 'n' || f == 'b' ||
+		f == 'r' || f == 'k')
 		return (1);
 	return (0);
 }

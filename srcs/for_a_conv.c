@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/14 14:53:38 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/15 14:58:11 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/17 16:05:21 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,11 @@ void	round_fract_for_a(t_p *p)
 
 	n = 0;
 	while (p->fr_size-- > p->f.precision)
-		((p->fr_part % 16) > 5) ? (p->fr_part = p->fr_part / 16 + 1) :
-			(p->fr_part /= 16);
+	{
+		((p->fr_part % 16) >= 8 &&
+		((p->fr_part / 16) % 16) != (p->fr_part % 16)) ?
+		(p->fr_part = p->fr_part / 16 + 1) : (p->fr_part /= 16);
+	}
 	p->fr_size = p->f.precision;
 }
 
@@ -71,6 +74,7 @@ char	*a_str(t_p *p, char *str, int size, char hex)
 			((p->i_part % 16) >= 10 ? (hex - 10) : '0');
 		p->i_part /= 16;
 	}
+	(p->zero_pad) ? (str[--size] = '0') : size;
 	str[--size] = p->f.conversion + 23;
 	str[--size] = '0';
 	return (str);
@@ -79,18 +83,19 @@ char	*a_str(t_p *p, char *str, int size, char hex)
 void	separate_num_for_a(t_p *p, long double num)
 {
 	long double fract_part;
-	int			n;
+	int			pres;
 
 	p->i_part = (unsigned long int)num;
 	fract_part = num - p->i_part;
-	n = 0;
-	while ((fract_part - p->fr_part) != 0)
+	p->fr_part = 0;
+	pres = 0;
+	while (pres < 52)
 	{
-		fract_part *= 2.0000;
-		p->fr_part = (unsigned long int)(fract_part + 0.5);
+		fract_part *= 2.0;
+		p->fr_part = (unsigned long int)(fract_part + 0.1);
 		if ((int)(fract_part * 4) == 0)
 			p->zero_fr++;
-		n++;
+		pres++;
 	}
 }
 
@@ -114,7 +119,8 @@ char	*for_a_conv(t_p *p, long double num)
 	((!(p->f.precision) && p->precision) || num == 0.0) ? (p->dec_point = 0) :
 														(p->dec_point = 1);
 	a_size(p, p->i_part, p->fr_part);
-	size = p->i_size + p->fr_size + p->exp_size + p->dec_point + neg + 4;
+	size = p->i_size + p->fr_size + p->exp_size + p->dec_point +
+		neg + p->zero_pad + 4;
 	str = (char*)malloc(sizeof(char) * size + 1);
 	str[size] = '\0';
 	(p->f.conversion == 'a') ? (str = a_str(p, str, size, 'a')) :

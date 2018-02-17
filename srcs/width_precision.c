@@ -24,8 +24,8 @@ void	manage_width(t_p *p, int start, int j, int end)
 		p->output[start++] = ' ';
 	if (p->left_justify)
 	{
-		start = p->space + p->prefix;
-		end = p->value_len + p->space + p->prefix;
+		start = p->space + p->prefix + p->plus_sign;
+		end = p->value_len + p->space + p->prefix + p->plus_sign;
 	}
 	else
 		end = p->f.width;

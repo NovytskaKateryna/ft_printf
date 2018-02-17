@@ -6,85 +6,40 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 10:21:01 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/11 16:45:56 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/17 16:20:16 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		write_format2(t_p *p, char *format, int j)
+int		check_color(char *format, int j)
 {
-	int i;
-
-	i = -1;
-	while (i++ < 2 && f_size_modifier(format[j]))
-		j++;
-	if (i != -1)
-	{
-		i == 1 ? (p->f.modifier = format[--j]) :
-		(p->f.modifier = format[--j] - 32);
-		j++;
-	}
-	if (f_conversion(format[j]))
-		p->f.conversion = format[j];
-	return (j);
-}
-
-int		write_width(t_p *p, char *format, va_list ar, int j)
-{
-	while (f_field_width(format[j]))
-	{
-		if (format[j] == '*')
-		{
-			if ((p->f.width = va_arg(ar, int)) < 0)
-				p->left_justify = 1;
-			p->f.width = ABS(p->f.width);
-			j++;
-		}
-		else
-		{
-			p->f.width = ft_atoi(&format[j]);
-			while (f_field_width(format[j]) && format[j] != '*')
-				j++;
-		}
-	}
-	return (j);
-}
-
-int		write_precision(t_p *p, char *format, va_list ar, int j)
-{
-	if (f_precision(format[j]))
-	{
-		p->precision = 1;
-		if (format[++j] == '*')
-		{
-			if ((p->f.precision = va_arg(ar, int)) < 0)
-			{
-				p->f.precision = 0;
-				p->precision = 0;
-			}
-		}
-		else
-			p->f.precision = ft_atoi(&format[j]);
-		while (f_field_width(format[j]))
-			j++;
-	}
-	return (j);
-}
-
-int		write_format(t_p *p, char *format, va_list ar, int j)
-{
-	int i;
+	char	color[100];
+	int		i;
 
 	i = 0;
-	while (f_flags(format[j]))
-	{
-		p->f.flags[i++] = format[j++];
-		p->flags = 1;
-	}
-	j = write_width(p, format, ar, j);
-	j = write_precision(p, format, ar, j);
-	return (write_format2(p, format, j));
+	while (format[++j] != '}')
+		color[i++] = format[j];
+	color[i] = '\0';
+	if (!(ft_strcmp(color, "white")))
+		write(1, WHITE_TEXT, 8);
+	else if (!(ft_strcmp(color, "red")))
+		write(1, RED_TEXT, 8);
+	else if (!(ft_strcmp(color, "green")))
+		write(1, GREEN_TEXT, 8);
+	else if (!(ft_strcmp(color, "yellow")))
+		write(1, YELLOW_TEXT, 8);
+	else if (!(ft_strcmp(color, "blue")))
+		write(1, BLUE_TEXT, 8);
+	else if (!(ft_strcmp(color, "magneta")))
+		write(1, MAGNETA_TEXT, 8);
+	else if (!(ft_strcmp(color, "cyan")))
+		write(1, CYAN_TEXT, 8);
+	else if (!(ft_strcmp(color, "eoc")))
+		write(1, EOC, 5);
+	else
+		return (0);
+	return (i + 2);
 }
 
 int		output_length(const char *f, va_list ar, t_p *p)
@@ -98,6 +53,8 @@ int		output_length(const char *f, va_list ar, t_p *p)
 	format_len = ft_strlen(format);
 	while (++j < format_len)
 	{
+		if (format[j] == '{')
+			j += check_color(format, j);
 		if (format[j] == '%')
 		{
 			j = write_format(p, format, ar, ++j);
@@ -106,7 +63,7 @@ int		output_length(const char *f, va_list ar, t_p *p)
 			output_analize(p, ar);
 			reset_values(p);
 		}
-		else
+		else if (format[j] != '{' || format[j] != '}')
 		{
 			write(1, &format[j], 1);
 			p->out_len++;

@@ -22,6 +22,8 @@ int		round_parts_for_g(t_p *p)
 		while (n++ < p->f.precision)
 			((p->fr_part % 10) > 5) ? (p->fr_part = p->fr_part / 10 + 1) :
 				(p->fr_part /= 10);
+		if (p->fr_part == 1)
+			p->zero_fr--;
 	}
 	else if (p->i_size > p->f.precision)
 	{
@@ -119,11 +121,15 @@ char	*for_g_conv(t_p *p, long double num)
 	(num != 0.0) ? get_exponent(p, num) : 0;
 	(p->f.precision == 1 || num == 0.0) ? (p->dec_point = 0) :
 		(p->dec_point = 1);
-	if ((p->exp > 4 && p->exp_sign == '-') ||
+	if ((p->exp > 4 && p->exp_sign == '-' && p->f.precision > 1) ||
 			(p->exp >= p->f.precision && p->exp_sign == '+'))
 		str = for_e_notation(p, neg);
 	else
+	{
+		if (p->f.precision == 1 && p->exp > 4 && p->exp_sign == '-')
+			p->f.precision = p->exp;
 		str = for_f_notation(p, num, neg);
+	}
 	if (neg)
 		str[0] = '-';
 	return (str);
