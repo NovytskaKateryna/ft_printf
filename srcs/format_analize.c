@@ -79,8 +79,16 @@ int		write_format(t_p *p, char *format, va_list ar, int j)
 	i = 0;
 	while (f_flags(format[j]))
 	{
-		p->f.flags[i++] = format[j++];
-		p->flags = 1;
+		if (format[j] == 39)
+		{
+			p->apostr = 1;
+			j++;
+		}
+		else
+		{
+			p->f.flags[i++] = format[j++];
+			p->flags = 1;
+		}
 	}
 	j = write_width(p, format, ar, j);
 	j = write_precision(p, format, ar, j);

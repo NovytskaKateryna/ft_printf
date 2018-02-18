@@ -44,6 +44,7 @@ char	*f_str(t_p *p, char *str, int size)
 		str[--size] = (p->i_part % 10) + 48;
 		p->i_part /= 10;
 	}
+	p->minus_sign ? (str[0] = '-') : 0;
 	return (str);
 }
 
@@ -51,23 +52,19 @@ char	*for_f_conv(t_p *p, long double num)
 {
 	char	*str;
 	int		size;
-	int		neg;
 
-	neg = 0;
 	if (num < 0)
 	{
 		num *= (-1);
-		neg = 1;
+		p->minus_sign = 1;
 	}
 	separate_num(p, num);
 	(!(p->f.precision) && p->precision) ? 0 : (p->dec_point = 1);
 	p->fr_size = p->f.precision;
 	i_part_size(p, p->i_part);
-	size = p->i_size + p->fr_size + neg + p->dec_point;
+	size = p->i_size + p->fr_size + p->minus_sign + p->dec_point;
 	if (!(str = (char*)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	str = f_str(p, str, size);
-	if (neg)
-		str[0] = '-';
 	return (str);
 }

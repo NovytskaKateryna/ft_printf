@@ -46,25 +46,24 @@ int		is_signed_conversion(char conv)
 	return (0);
 }
 
-void	put_marks(t_p *p, int i)
+void	put_marks(t_p *p, int i, char conv)
 {
 	while (--i >= 0)
 	{
 		if (p->f.flags[i] == '-')
 			p->left_justify = 1;
-		else if (p->f.flags[i] == '+' && is_signed_conversion(p->f.conversion))
+		else if (p->f.flags[i] == '+' && is_signed_conversion(conv))
 			p->plus_sign = 1;
 		else if ((p->f.flags[i] == ' ' || p->f.flags[i] == '+') &&
-			is_signed_conversion(p->f.conversion) && !(p->minus_sign))
+			is_signed_conversion(conv) && !(p->minus_sign))
 			p->space = 1;
-		else if (p->f.flags[i] == '#' && (p->f.conversion == 'o' ||
-			p->f.conversion == 'O') && p->value[0] != '0')
+		else if (p->f.flags[i] == '#' && (conv == 'o' || conv == 'O') &&
+			p->value[0] != '0')
 			p->prefix = 1;
-		else if (p->f.flags[i] == '#' && (((p->f.conversion == 'x' ||
-			p->f.conversion == 'X') && p->value[0] != '0') || p->pointer))
+		else if (p->f.flags[i] == '#' && (((conv == 'x' || conv == 'X') &&
+			p->value[0] != '0') || p->pointer))
 			p->prefix = 2;
-		else if (p->f.flags[i] == '0' || (p->f.flags[i] == '0' && (p->f.conversion == 'a' ||
-			p->f.conversion == 'A') && (p->f.precision < p->f.width)))
+		else if (p->f.flags[i] == '0')
 			p->zero_pad = 1;
 	}
 	put_marks2(p);
@@ -75,11 +74,11 @@ void	manage_operations(t_p *p, t_operation *oper)
 	int i;
 	int j;
 
-	put_marks(p, ft_strlen(p->f.flags));
+	put_marks(p, ft_strlen(p->f.flags), p->f.conversion);
 	if (p->f.width && p->value_len < p->f.width)
 		manage_width(p, 0, 0, 0);
 	i = ft_strlen(p->f.flags);
-	while (--i >= 0)
+	while (--i >= 0 && p->flags)
 		oper[(int)p->f.flags[i]](p);
 	if (p->f.precision && p->f.conversion == 's')
 		string_precision(p, 0, 0, 0);

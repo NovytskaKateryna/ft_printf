@@ -36,29 +36,28 @@ void	get_exponent(t_p *p, long double num)
 	p->num = num;
 }
 
-char	*e_str(t_p *p, char *str, int size, int neg)
+char	*e_str(t_p *p, char *str, int size)
 {
 	str[size] = '\0';
-	while (p->exp_size--)
+	while (p->exp_size-- > 0)
 	{
 		str[--size] = (p->exp % 10) + 48;
 		p->exp /= 10;
 	}
 	str[--size] = p->exp_sign;
 	str[--size] = p->f.conversion;
-	while (p->fr_size--)
+	while (p->fr_size-- > 0)
 	{
 		str[--size] = (p->fr_part % 10) + 48;
 		p->fr_part /= 10;
 	}
 	p->dec_point ? str[--size] = '.' : size;
-	while (p->i_size--)
+	while (p->i_size-- > 0)
 	{
 		str[--size] = (p->i_part % 10) + 48;
 		p->i_part /= 10;
 	}
-	if (neg)
-		str[0] = '-';
+	p->minus_sign ? (str[0] = '-') : 0;
 	return (str);
 }
 
@@ -66,13 +65,11 @@ char	*for_e_conv(t_p *p, long double num)
 {
 	char	*str;
 	int		size;
-	int		neg;
 
-	neg = 0;
 	if (num < 0)
 	{
 		num *= (-1);
-		neg = 1;
+		p->minus_sign = 1;
 	}
 	(num != 0.0) ? get_exponent(p, num) : 0;
 	(p->exp == 0) ? (p->exp_sign = '+') : 0;
@@ -81,12 +78,10 @@ char	*for_e_conv(t_p *p, long double num)
 	p->fr_size = p->f.precision;
 	i_part_size(p, p->i_part);
 	(!(p->f.precision) && p->precision) ? 0 : (p->dec_point = 1);
-	size = p->i_size + p->fr_size + neg + p->dec_point +
+	size = p->i_size + p->fr_size + p->minus_sign + p->dec_point +
 			p->exp_size + 2;
 	if (!(str = (char*)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
-	str = e_str(p, str, size, neg);
-	if (neg)
-		str[0] = '-';
+	str = e_str(p, str, size);
 	return (str);
 }

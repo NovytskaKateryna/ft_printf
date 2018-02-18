@@ -24,6 +24,7 @@ int		round_parts_for_g(t_p *p)
 				(p->fr_part /= 10);
 		if (p->fr_part == 1)
 			p->zero_fr--;
+		return (1);
 	}
 	else if (p->i_size > p->f.precision)
 	{
@@ -61,10 +62,11 @@ char	*exponent_g_str(t_p *p, char *str, int size)
 		str[--size] = (p->i_part % 10) + 48;
 		p->i_part /= 10;
 	}
+	p->minus_sign ? (str[0] = '-') : 0;
 	return (str);
 }
 
-char	*for_e_notation(t_p *p, int neg)
+char	*for_e_notation(t_p *p)
 {
 	char	*str;
 	int		size;
@@ -72,30 +74,28 @@ char	*for_e_notation(t_p *p, int neg)
 	separate_num(p, p->num);
 	p->exp_size = exp_size(p, p->exp);
 	g_size(p->fr_part, p);
-	size = p->fr_size + p->i_size + neg + p->exp_size + p->dec_point + 2;
+	size = p->fr_size + p->i_size + p->minus_sign +
+			p->exp_size + p->dec_point + 2;
 	if (!(str = (char*)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	str = exponent_g_str(p, str, size);
 	return (str);
 }
 
-char	*for_f_notation(t_p *p, long double num, int neg)
+char	*for_f_notation(t_p *p, long double num)
 {
 	char	*str;
 	int		size;
 
 	separate_num(p, num);
 	g_size(p->fr_part, p);
-	size = p->fr_size + p->i_size + neg + p->dec_point;
+	size = p->fr_size + p->i_size + p->minus_sign + p->dec_point;
 	if (!(str = (char*)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	str[size] = '\0';
 	while (p->fr_size-- > 0)
 	{
-		if (p->fr_part != 0)
-			str[--size] = (p->fr_part % 10) + 48;
-		else
-			str[--size] = '0';
+		str[--size] = (p->fr_part % 10) + 48;
 		p->fr_part /= 10;
 	}
 	p->dec_point ? str[--size] = '.' : size;
@@ -104,33 +104,30 @@ char	*for_f_notation(t_p *p, long double num, int neg)
 		str[--size] = (p->i_part % 10) + 48;
 		p->i_part /= 10;
 	}
+	p->minus_sign ? (str[0] = '-') : 0;
 	return (str);
 }
 
 char	*for_g_conv(t_p *p, long double num)
 {
 	char	*str;
-	int		neg;
 
-	neg = 0;
 	if (num < 0)
 	{
 		num *= (-1);
-		neg = 1;
+		p->minus_sign = 1;
 	}
 	(num != 0.0) ? get_exponent(p, num) : 0;
 	(p->f.precision == 1 || num == 0.0) ? (p->dec_point = 0) :
 		(p->dec_point = 1);
 	if ((p->exp > 4 && p->exp_sign == '-' && p->f.precision > 1) ||
 			(p->exp >= p->f.precision && p->exp_sign == '+'))
-		str = for_e_notation(p, neg);
+		str = for_e_notation(p);
 	else
 	{
 		if (p->f.precision == 1 && p->exp > 4 && p->exp_sign == '-')
 			p->f.precision = p->exp;
-		str = for_f_notation(p, num, neg);
+		str = for_f_notation(p, num);
 	}
-	if (neg)
-		str[0] = '-';
 	return (str);
 }

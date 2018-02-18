@@ -12,12 +12,10 @@
 
 #include "ft_printf.h"
 
-int		check_color(char *format, int j)
+int		check_color(char *format, int j, int i)
 {
 	char	color[100];
-	int		i;
 
-	i = 0;
 	while (format[++j] != '}')
 		color[i++] = format[j];
 	color[i] = '\0';
@@ -53,13 +51,11 @@ int		output_length(const char *f, va_list ar, t_p *p)
 	format_len = ft_strlen(format);
 	while (++j < format_len)
 	{
-		if (format[j] == '{')
-			j += check_color(format, j);
+		(format[j] == '{') ? (j += check_color(format, j, 0)) : j;
 		if (format[j] == '%')
 		{
 			j = write_format(p, format, ar, ++j);
-			if (!(p->f.conversion))
-				p->value = ft_strdup(&format[j]);
+			(!(p->f.conversion)) ? (p->value = ft_strdup(&format[j])) : 0;
 			output_analize(p, ar);
 			reset_values(p);
 		}

@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 10:21:42 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/17 16:18:39 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/18 15:36:08 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct			s_p
 	int					minus_sign;
 	int					plus_sign;
 	int					prefix;
+	int					apostr;
 	int					zero_pad;
 	int					pointer;
 	int					precision;
@@ -134,13 +135,15 @@ int						str_with_no_printable(t_p *p, va_list ar,
 void					left_justification(t_p *p);
 void					zero_padding(t_p *p);
 void					sign_production(t_p *p);
+void					apostr_production(t_p *p);
+void					apostr_f_production(t_p *p);
 void					space_production(t_p *p);
 void					alternative_output(t_p *p);
 void					manage_width(t_p *p, int start, int j, int end);
 void					manage_precision(t_p *p);
 void					string_precision(t_p *p, int start, int end, int j);
 void					capital_hex(char *s);
-void					put_marks(t_p *p, int i);
+void					put_marks(t_p *p, int i, char conv);
 void					manage_operations(t_p *p, t_operation *oper);
 t_p						*p_initialise(t_p *k);
 void					output_analize(t_p *p, va_list ar);

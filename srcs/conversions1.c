@@ -29,6 +29,8 @@ int		unsigned_conversions(t_p *p, va_list ar, t_operation *oper)
 		p->value_len = 0;
 		p->precision = 0;
 	}
+	if (p->apostr && (p->f.conversion == 'u'))
+		apostr_production(p);
 	manage_operations(p, oper);
 	if (p->f.conversion == 'X')
 		capital_hex(p->output);
@@ -47,6 +49,8 @@ int		signed_conversions(t_p *p, va_list ar, t_operation *oper)
 		p->value_len = 0;
 	if (!(p->f.precision) && p->precision && !(p->flags))
 		p->precision = 0;
+	if (p->apostr && (p->f.conversion == 'd' || p->f.conversion == 'i'))
+		apostr_production(p);
 	manage_operations(p, oper);
 	p->value_len = ft_strlen(p->output);
 	return (p->value_len);
@@ -85,7 +89,7 @@ int		no_conversion_output(t_p *p, va_list ar, t_operation *oper)
 	ar = 0;
 	p->value_len = 1;
 	i = ft_strlen(p->f.flags);
-	put_marks(p, i);
+	put_marks(p, i, p->f.conversion);
 	if (p->f.width)
 		manage_width(p, 0, 0, 0);
 	manage_operations(p, oper);

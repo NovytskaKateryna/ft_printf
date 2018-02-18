@@ -27,8 +27,8 @@ int		float_conversions(t_p *p, va_list ar, t_operation *oper)
 	p->value_len = ft_strlen(p->value);
 	p->f.precision = 0;
 	p->precision = 0;
-	if (p->value[0] == '-')
-		p->minus_sign = 1;
+	if (p->apostr)
+		apostr_f_production(p);
 	manage_operations(p, oper);
 	p->value_len = ft_strlen(p->output);
 	return (p->value_len);
@@ -49,8 +49,6 @@ int		exponent_conversions(t_p *p, va_list ar, t_operation *oper)
 	p->value_len = ft_strlen(p->value);
 	p->f.precision = 0;
 	p->precision = 0;
-	if (p->value[0] == '-')
-		p->minus_sign = 1;
 	manage_operations(p, oper);
 	p->value_len = ft_strlen(p->output);
 	return (p->value_len);
@@ -78,7 +76,6 @@ int		scientific_notation_conversions(t_p *p, va_list ar, t_operation *oper)
 	p->value_len = ft_strlen(p->value);
 	p->f.precision = 0;
 	p->precision = 0;
-	(p->value[0] == '-') ? (p->minus_sign = 1) : 0;
 	p->prefix = 0;
 	manage_operations(p, oper);
 	p->value_len = ft_strlen(p->output);
@@ -93,14 +90,14 @@ int		hexadecimal_notation_conversions(t_p *p, va_list ar, t_operation *oper)
 		arg = va_arg(ar, long double);
 	else
 		arg = va_arg(ar, double);
-	put_marks(p, ft_strlen(p->f.flags));
+	put_marks(p, ft_strlen(p->f.flags), p->f.conversion);
+	(p->zero_pad && (p->f.precision < p->f.width)) ? p->zero_pad :
+					(p->zero_pad = 0);
 	if (!(check_float_values(p, arg, p->f.conversion)))
 		p->value = for_a_conv(p, arg);
 	p->value_len = ft_strlen(p->value);
 	p->f.precision = 0;
 	p->precision = 0;
-	if (p->value[0] == '-')
-		p->minus_sign = 1;
 	manage_operations(p, oper);
 	p->value_len = ft_strlen(p->output);
 	return (p->value_len);

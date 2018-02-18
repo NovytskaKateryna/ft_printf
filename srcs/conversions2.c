@@ -17,7 +17,7 @@ int		wide_char_conversions(t_p *p, va_list ar, t_operation *oper)
 	if ((p->arg = va_arg(ar, void*)) == NULL && (p->f.conversion == 's' ||
 		p->f.conversion == 'S'))
 		return (write(1, "(null)", 6));
-	put_marks(p, ft_strlen(p->f.flags));
+	put_marks(p, ft_strlen(p->f.flags), p->f.conversion);
 	if (p->left_justify || !(p->f.precision))
 	{
 		(!(p->f.precision) && p->precision) ? p->f.width :
