@@ -21,6 +21,7 @@ void	reset_values(t_p *p)
 	p->f.width = 0;
 	p->f.precision = 0;
 	p->minus_sign = 0;
+	p->apostr = 0;
 	p->plus_sign = 0;
 	p->left_justify = 0;
 	p->prefix = 0;
@@ -60,6 +61,7 @@ t_p		*p_initialise(t_p *k)
 	k->i_part = 0;
 	k->fr_part = 0;
 	k->zero_fr = 0;
+	k->apostr = 0;
 	k->dec_point = 0;
 	k->exp = 0;
 	k->num = 0;

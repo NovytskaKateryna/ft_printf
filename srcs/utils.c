@@ -60,8 +60,8 @@ void	put_marks(t_p *p, int i, char conv)
 		else if (p->f.flags[i] == '#' && (conv == 'o' || conv == 'O') &&
 			p->value[0] != '0')
 			p->prefix = 1;
-		else if (p->f.flags[i] == '#' && (((conv == 'x' || conv == 'X') &&
-			p->value[0] != '0') || p->pointer))
+		else if (p->f.flags[i] == '#' && (((p->f.conversion == 'x' ||
+			p->f.conversion == 'X') && p->value[0] != '0') || p->pointer))
 			p->prefix = 2;
 		else if (p->f.flags[i] == '0')
 			p->zero_pad = 1;
@@ -78,7 +78,7 @@ void	manage_operations(t_p *p, t_operation *oper)
 	if (p->f.width && p->value_len < p->f.width)
 		manage_width(p, 0, 0, 0);
 	i = ft_strlen(p->f.flags);
-	while (--i >= 0 && p->flags)
+	while (--i >= 0)
 		oper[(int)p->f.flags[i]](p);
 	if (p->f.precision && p->f.conversion == 's')
 		string_precision(p, 0, 0, 0);
