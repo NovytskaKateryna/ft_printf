@@ -96,11 +96,9 @@ char	*for_e_notation(t_p *p)
 	char	*str;
 	int		size;
 
-	//printf("num->%Lf\n", p->num);
 	separate_num(p, p->num);
 	p->exp_size = exp_size(p, p->exp);
 	g_size(p->fr_part, p);
-//	printf("fr_part->%llu i_part->%llu\n", p->fr_part, p->i_part);
 	size = p->fr_size + p->i_size + p->minus_sign +
 			p->exp_size + p->dec_point + 2;
 	if (!(str = (char*)malloc(sizeof(char) * (size + 1))))
@@ -114,17 +112,12 @@ char	*for_f_notation(t_p *p, long double num)
 	char	*str;
 	int		size;
 
-	//printf("num->%Lf\n", num);
 	separate_num(p, num);
 	p->exp = 0;
 	g_size(p->fr_part, p);
-//	printf("dec->%i\n", p->dec_point);
-//	printf("i_part->%llu fr_part->%llu\n", p->i_part, p->fr_part);
 	if (p->f.precision > p->i_size && p->prefix && p->i_part != 0)
 		p->fr_size = p->f.precision - p->i_size;
-//	printf("i_size->%i fr_size->%i\n", p->i_size, p->fr_size);
 	size = p->fr_size + p->i_size + p->minus_sign + p->dec_point;
-//	printf("size->%i\n", size);
 	if (!(str = (char*)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	str[size] = '\0';
@@ -156,10 +149,6 @@ char	*for_g_conv(t_p *p, long double num)
 	(p->f.precision == 1 || num == 0.0) ? (p->dec_point = 0) :
 		(p->dec_point = 1);
 	(p->prefix) ? (p->dec_point = 1) : 0;
-//	printf("exp->%i\n", p->exp);
-//	printf("dec->%i\n", p->dec_point);
-//	printf("pres->%i\n", p->f.precision);
-//	printf("i_part->%llu fr_part->%llu \n", p->i_part, p->fr_part);
 	if ((p->exp > 4 && p->exp_sign == '-' && p->f.precision > 1) ||
 			(p->exp >= p->f.precision && p->exp_sign == '+'))
 		str = for_e_notation(p);

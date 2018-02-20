@@ -52,7 +52,7 @@ typedef struct			s_p
 	int					flags;
 	char				*value;
 	int					value_len;
-	char				output[2048];
+	char				*output;
 	int					out_len;
 	int					color;
 	void				*arg;

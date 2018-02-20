@@ -14,7 +14,7 @@
 
 void	reset_values(t_p *p)
 {
-	ft_bzero(p->output, 2048);
+	ft_bzero(p->output, 8000);
 	p->value_len = 0;
 	p->value = NULL;
 	p->f.conversion = 0;
@@ -43,7 +43,8 @@ void	reset_values(t_p *p)
 t_p		*p_initialise(t_p *k)
 {
 	k = (t_p*)malloc(sizeof(t_p));
-	ft_bzero(k->output, 2048);
+	k->output = (char*)malloc(sizeof(char) * 8000);
+	ft_bzero(k->output, 8000);
 	k->f.conversion = 0;
 	k->out_len = 0;
 	k->f.width = 0;
