@@ -147,7 +147,7 @@ char	*for_g_conv(t_p *p, long double num)
 {
 	char	*str;
 
-	if (num < 0.0 || num <= -0.0)
+	if (num < 0.0 || num < -0.0)
 	{
 		num *= (-1);
 		p->minus_sign = 1;
