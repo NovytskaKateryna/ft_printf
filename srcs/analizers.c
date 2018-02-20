@@ -73,6 +73,4 @@ void	output_analize(t_p *p, va_list ar)
 	p->out_len += analizer[(int)p->f.conversion](p, ar, flag_operation);
 	if (p->value_len)
 		write(1, p->output, p->value_len);
-	// if (p->value)
-	// 	ft_strdel(&p->value);
 }

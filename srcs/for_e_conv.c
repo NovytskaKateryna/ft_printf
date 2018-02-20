@@ -15,24 +15,26 @@
 void	get_exponent(t_p *p, long double num)
 {
 	p->exp = 0;
-	if (num > 9.99)
+	if (num >= 9.99)
 	{
 		while (num > 9.99)
 		{
-			num /= 10;
 			p->exp++;
+			num /= 10;
+		//	printf("num->%Lf\n", num);
 		}
 		p->exp_sign = '+';
 	}
-	else if (num < 1.0)
+	else if (num <= 1.0)
 	{
 		while (num < 1.0)
 		{
-			num *= 10;
 			p->exp++;
+			num *= 10;
 		}
 		p->exp_sign = '-';
 	}
+	//printf("exp->%i\n", p->exp);
 	p->num = num;
 }
 

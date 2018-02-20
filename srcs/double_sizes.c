@@ -85,17 +85,21 @@ void	g_size(unsigned long int f_p, t_p *p)
 	while ((p->fr_part % 10) == 0 && p->fr_part != 0 && !(p->prefix))
 		p->fr_part /= 10;
 	p->fr_size = 0;
-	if (p->fr_part != 0 && p->f.precision != 1)
+	if (p->fr_part != 0 && p->f.precision != 1 && (p->i_size != p->f.precision))
 	{
 		p->dec_point = 1;
 		p->fr_size += p->zero_fr;
 	}
-	else if (p->fr_part == 0 && p->f.precision != 1)
+	else if (((p->fr_part == 0 && p->f.precision != 1) ||
+		(p->i_size == p->f.precision)) && !(p->prefix))
 		p->dec_point = 0;
 	f_p = p->fr_part;
-	while (f_p != 0 && (p->i_size + p->fr_size) <= p->f.precision)
+	while (f_p != 0 && (p->i_size + p->fr_size) < p->f.precision)
 	{
 		f_p /= 10;
 		p->fr_size++;
 	}
+//	printf("i_part->%llu\n", p->i_part);
+	(p->i_part == 0 && p->f.precision && p->fr_part != 0) ? (p->fr_size = p->f.precision) : p->fr_size;
+	//printf("fr_size->%i\n", p->fr_size);
 }

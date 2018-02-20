@@ -59,7 +59,7 @@ int		output_length(const char *f, va_list ar, t_p *p)
 			output_analize(p, ar);
 			reset_values(p);
 		}
-		else if (format[j] != '{' || format[j] != '}')
+		else
 		{
 			write(1, &format[j], 1);
 			p->out_len++;
