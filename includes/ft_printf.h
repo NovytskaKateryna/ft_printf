@@ -90,6 +90,7 @@ char					*for_a_conv(t_p *p, long double num);
 void					get_exponent(t_p *p, long double num);
 void					separate_num(t_p *p, long double num);
 void					i_part_size(t_p *p, unsigned long i_p);
+void 					f_part_size(t_p *p, unsigned long f_p);
 void					g_size(unsigned long int f_p, t_p *p);
 void					a_size(t_p *p, unsigned long i_p, unsigned long f_p);
 int						exp_size(t_p *p, int exp);

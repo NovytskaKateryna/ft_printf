@@ -41,6 +41,17 @@ void	i_part_size(t_p *p, unsigned long i_p)
 	}
 }
 
+void 	f_part_size(t_p *p, unsigned long f_p)
+{
+	p->fr_size = 0;
+	p->fr_size += p->zero_fr;
+	while (f_p != 0)
+	{
+		f_p /= 10;
+		p->fr_size++;
+	}
+}
+
 void	round_ipart_for_a(t_p *p)
 {
 	p->f.precision = 1;
@@ -80,6 +91,7 @@ void	a_size(t_p *p, unsigned long i_p, unsigned long f_p)
 void	g_size(unsigned long int f_p, t_p *p)
 {
 	i_part_size(p, p->i_part);
+	f_part_size(p, p->fr_part);
 	if (round_parts_for_g(p))
 		return ;
 	while ((p->fr_part % 10) == 0 && p->fr_part != 0 && !(p->prefix))
@@ -101,5 +113,5 @@ void	g_size(unsigned long int f_p, t_p *p)
 	}
 //	printf("i_part->%llu\n", p->i_part);
 	(p->i_part == 0 && p->f.precision && p->fr_part != 0) ? (p->fr_size = p->f.precision) : p->fr_size;
-	//printf("fr_size->%i\n", p->fr_size);
+//	printf("fr_size->%i\n", p->fr_size);
 }

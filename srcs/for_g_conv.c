@@ -17,19 +17,27 @@ int		round_parts_for_g(t_p *p)
 	int n;
 
 	n = p->f.precision - p->i_size;
+//	printf("pres->%i i_size->%i fr_part->%llu fr_size->%i\n", p->f.precision, p->i_size, p->fr_part, p->fr_size);
 	if (p->f.precision > p->i_size && p->i_part != 0)
 	{
+//		printf("if\n");
 	//	printf("n->%i\n", n);
-	//	printf("i_part->%llu\n", p->i_part);
+		//printf("i_part->%llu\n", p->i_part);
 		while (n++ < p->f.precision)
 			((p->fr_part % 10) > 5) ? (p->fr_part = p->fr_part / 10 + 1) :
 				(p->fr_part /= 10);
-		if (p->fr_part > 9)
+		p->fr_size = p->f.precision - p->i_size;
+	//			printf("fr_size->%i i_size->%i pres->%i\n", p->fr_size, p->i_size, p->f.precision);
+		if (p->fr_part > 9 && !(p->exp))
+		{
+			//p->dec_point = 0;
+			p->fr_size = 0;
 			p->i_part += 1;
+		}
 	//	printf("i_part->%llu fr->%llu\n", p->i_part, p->fr_part);
 		if (p->fr_part == 1)
 			p->zero_fr--;
-		else if ((p->fr_part == 0 || p->fr_part > 9) && !(p->prefix))
+		else if (p->fr_part == 0 && !(p->prefix))
 		{
 			p->dec_point = 0;
 			p->fr_size = 0;
@@ -52,12 +60,19 @@ int		round_parts_for_g(t_p *p)
 		p->fr_size = 0;
 		return (1);
 	}
-	else if (p->i_size == p->f.precision)
+	else if (p->i_size == p->f.precision || (p->exp && p->fr_size > p->f.precision))
 	{
 		while (p->fr_part > 10)
 		((p->fr_part % 10) > 5) ? (p->fr_part = p->fr_part / 10 + 1) :
 				(p->fr_part /= 10);
 		((p->fr_part % 10) > 5) ? (p->i_part += 1) : p->i_part;
+		if (p->fr_part > 9)
+		{
+			p->dec_point = 0;
+			p->fr_size = 0;
+			p->i_part += 1;
+		}
+		return (1);
 	}
 	return (0);
 }
@@ -92,7 +107,7 @@ char	*for_e_notation(t_p *p)
 	char	*str;
 	int		size;
 
-//	printf("num->%Lf\n", p->num);
+	//printf("num->%Lf\n", p->num);
 	separate_num(p, p->num);
 	p->exp_size = exp_size(p, p->exp);
 	g_size(p->fr_part, p);
@@ -112,6 +127,7 @@ char	*for_f_notation(t_p *p, long double num)
 
 	//printf("num->%Lf\n", num);
 	separate_num(p, num);
+	p->exp = 0;
 	g_size(p->fr_part, p);
 //	printf("dec->%i\n", p->dec_point);
 //	printf("i_part->%llu fr_part->%llu\n", p->i_part, p->fr_part);
@@ -142,7 +158,7 @@ char	*for_g_conv(t_p *p, long double num)
 {
 	char	*str;
 
-	if (num < 0.0 || num == -0.0)
+	if (num < 0.0 || num < -0.0)
 	{
 		num *= (-1);
 		p->minus_sign = 1;
