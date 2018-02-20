@@ -90,12 +90,15 @@ void	a_size(t_p *p, unsigned long i_p, unsigned long f_p)
 
 void	g_size(unsigned long int f_p, t_p *p)
 {
+	while ((p->fr_part % 10) == 0 && p->fr_part != 0 && !(p->prefix) && !(p->exp))
+		p->fr_part /= 10;
 	i_part_size(p, p->i_part);
 	f_part_size(p, p->fr_part);
-	if (round_parts_for_g(p))
-		return ;
-	while ((p->fr_part % 10) == 0 && p->fr_part != 0 && !(p->prefix))
-		p->fr_part /= 10;
+	if ((p->i_size + p->fr_size) > p->f.precision)
+	{
+		if (round_parts_for_g(p))
+			return ;
+	}
 	p->fr_size = 0;
 	if (p->fr_part != 0 && p->f.precision != 1 && (p->i_size != p->f.precision))
 	{

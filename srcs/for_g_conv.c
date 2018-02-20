@@ -33,6 +33,7 @@ int		round_parts_for_g(t_p *p)
 			//p->dec_point = 0;
 			p->fr_size = 0;
 			p->i_part += 1;
+			return (1);
 		}
 	//	printf("i_part->%llu fr->%llu\n", p->i_part, p->fr_part);
 		if (p->fr_part == 1)
@@ -42,7 +43,6 @@ int		round_parts_for_g(t_p *p)
 			p->dec_point = 0;
 			p->fr_size = 0;
 		}
-		return (1);
 	}
 	else if (p->f.precision < p->i_size)
 	{
@@ -131,7 +131,7 @@ char	*for_f_notation(t_p *p, long double num)
 	g_size(p->fr_part, p);
 //	printf("dec->%i\n", p->dec_point);
 //	printf("i_part->%llu fr_part->%llu\n", p->i_part, p->fr_part);
-	if (p->f.precision > p->i_size && p->dec_point && p->i_part != 0)
+	if (p->f.precision > p->i_size && p->prefix && p->i_part != 0)
 		p->fr_size = p->f.precision - p->i_size;
 //	printf("i_size->%i fr_size->%i\n", p->i_size, p->fr_size);
 	size = p->fr_size + p->i_size + p->minus_sign + p->dec_point;
