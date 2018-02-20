@@ -19,6 +19,7 @@ void	separate_num(t_p *p, long double num)
 
 	p->i_part = (unsigned long int)num;
 	fract_part = num - p->i_part;
+	p->zero_fr = 0;
 	//printf("i->%llu f->%Lf\n", p->i_part, fract_part);
 	n = 0;
 	while (n < p->f.precision)

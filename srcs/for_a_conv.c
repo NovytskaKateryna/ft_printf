@@ -68,8 +68,8 @@ char	*a_str(t_p *p, char *str, int size, char hex)
 			((p->fr_part % 16) >= 10 ? (hex - 10) : '0');
 		p->fr_part /= 16;
 	}
-	while (p->zero_fr-- > 0)
-		str[--size] = '0';
+	// while (p->zero_fr-- > 0)
+	// 	str[--size] = '0';
 	p->dec_point ? str[--size] = '.' : size;
 	while (p->i_size-- > 0)
 	{
@@ -122,7 +122,7 @@ char	*for_a_conv(t_p *p, long double num)
 
 //	printf("i_part->%llu fr_part->%llx fr_size->%i zero->%i\n", p->i_part, p->fr_part, p->fr_size, p->zero_fr);
 	size = p->i_size + p->fr_size + p->exp_size + p->dec_point +
-		p->minus_sign + p->zero_pad + 4 + p->zero_fr;
+		p->minus_sign + p->zero_pad + 4;
 //	printf("size->%i\n", size);
 	str = (char*)malloc(sizeof(char) * size + 1);
 	str[size] = '\0';
