@@ -55,7 +55,6 @@ void	round_fract_for_a(t_p *p)
 
 char	*a_str(t_p *p, char *str, int size, char hex)
 {
-//	printf("fr_size->%i\n", p->fr_size);
 	while (p->exp_size-- > 0)
 	{
 		str[--size] = (p->exp % 10) + 48;
@@ -63,15 +62,14 @@ char	*a_str(t_p *p, char *str, int size, char hex)
 	}
 	str[--size] = p->exp_sign;
 	str[--size] = p->f.conversion + 15;
-//	printf("p->fr_part->%llx\n", p->fr_part);
 	while (p->fr_size-- > 0)
 	{
-		// while (p->zero_fr-- > 0 && p->fr_size-- > 0)
-		// 	str[--size] = '0';
 		str[--size] = (p->fr_part % 16) +
 			((p->fr_part % 16) >= 10 ? (hex - 10) : '0');
 		p->fr_part /= 16;
 	}
+	while (p->zero_fr-- > 0)
+		str[--size] = '0';
 	p->dec_point ? str[--size] = '.' : size;
 	while (p->i_size-- > 0)
 	{
@@ -108,7 +106,7 @@ char	*for_a_conv(t_p *p, long double num)
 	char	*str;
 	int		size;
 
-	if (num < 0.0 || num <= -0.0)
+	if (num < 0.0)
 	{
 		num *= (-1);
 		p->minus_sign = 1;
@@ -124,7 +122,7 @@ char	*for_a_conv(t_p *p, long double num)
 
 //	printf("i_part->%llu fr_part->%llx fr_size->%i zero->%i\n", p->i_part, p->fr_part, p->fr_size, p->zero_fr);
 	size = p->i_size + p->fr_size + p->exp_size + p->dec_point +
-		p->minus_sign + p->zero_pad + 4;
+		p->minus_sign + p->zero_pad + 4 + p->zero_fr;
 //	printf("size->%i\n", size);
 	str = (char*)malloc(sizeof(char) * size + 1);
 	str[size] = '\0';
