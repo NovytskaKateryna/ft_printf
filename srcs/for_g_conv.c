@@ -17,25 +17,18 @@ int		round_parts_for_g(t_p *p)
 	int n;
 
 	n = p->f.precision - p->i_size;
-//	printf("pres->%i i_size->%i fr_part->%llu fr_size->%i\n", p->f.precision, p->i_size, p->fr_part, p->fr_size);
 	if (p->f.precision > p->i_size && p->i_part != 0)
 	{
-//		printf("if\n");
-	//	printf("n->%i\n", n);
-		//printf("i_part->%llu\n", p->i_part);
 		while (n++ < p->f.precision)
 			((p->fr_part % 10) > 5) ? (p->fr_part = p->fr_part / 10 + 1) :
 				(p->fr_part /= 10);
 		p->fr_size = p->f.precision - p->i_size;
-	//			printf("fr_size->%i i_size->%i pres->%i\n", p->fr_size, p->i_size, p->f.precision);
 		if (p->fr_part > 9 && !(p->exp))
 		{
-			//p->dec_point = 0;
 			p->fr_size = 0;
 			p->i_part += 1;
 			return (1);
 		}
-	//	printf("i_part->%llu fr->%llu\n", p->i_part, p->fr_part);
 		if (p->fr_part == 1)
 			p->zero_fr--;
 		else if (p->fr_part == 0 && !(p->prefix))
@@ -53,10 +46,8 @@ int		round_parts_for_g(t_p *p)
 	}
 	else if (p->i_size == p->f.precision && p->f.precision == 1)
 	{
-	//	printf("i_part->%llu fr_part->%llu\n", p->i_part, p->fr_part);
 		((p->fr_part % 10) > 5 || (p->fr_part >= 5)) ? (p->i_part += 1) : p->i_part;
 		(p->i_part > 9) ? (p->i_part /= 10) : p->i_part;
-	//	printf("i_size->%i\n", p->i_size);
 		p->fr_size = 0;
 		return (1);
 	}
@@ -66,12 +57,10 @@ int		round_parts_for_g(t_p *p)
 		((p->fr_part % 10) > 5) ? (p->fr_part = p->fr_part / 10 + 1) :
 				(p->fr_part /= 10);
 		((p->fr_part % 10) > 5) ? (p->i_part += 1) : p->i_part;
-		if (p->fr_part > 9)
-		{
-			p->dec_point = 0;
-			p->fr_size = 0;
+		if (p->fr_part > 9 && p->exp)
 			p->i_part += 1;
-		}
+		p->dec_point = 0;
+		p->fr_size = 0;
 		return (1);
 	}
 	return (0);
@@ -158,12 +147,11 @@ char	*for_g_conv(t_p *p, long double num)
 {
 	char	*str;
 
-	if (num < 0.0 || num < -0.0)
+	if (num < 0.0 || num <= -0.0)
 	{
 		num *= (-1);
 		p->minus_sign = 1;
 	}
-	//printf("pref->%i\n", p->prefix);
 	(num != 0.0) ? get_exponent(p, num) : 0;
 	(p->f.precision == 1 || num == 0.0) ? (p->dec_point = 0) :
 		(p->dec_point = 1);
