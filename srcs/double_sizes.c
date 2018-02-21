@@ -57,7 +57,7 @@ void	round_ipart_for_a(t_p *p)
 	p->f.precision = 1;
 	round_fract_for_a(p);
 //	printf("i_part->%llx fr_part->%llx\n", p->i_part, p->fr_part);
-	if ((p->fr_part % 16) > 8 && (p->fr_part % 16) != (p->i_part % 16))
+	if ((p->fr_part % 16) > 8)
 		p->i_part = p->i_part + 1;
 	p->fr_size = 0;
 	p->dec_point = 0;
