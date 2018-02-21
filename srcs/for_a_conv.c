@@ -17,8 +17,9 @@ void	get_exponent_for_a(t_p *p, long double num)
 	p->exp = 0;
 	if (num >= 1.99)
 	{
-		while (num > 1.99)
+		while (num >= 2.00)
 		{
+		//	printf("num->%Lf\n", num);
 			p->exp++;
 			num /= 2;
 		}
@@ -26,7 +27,7 @@ void	get_exponent_for_a(t_p *p, long double num)
 	}
 	else if (num <= 1.0)
 	{
-		while (num < 1.0)
+		while (num <= 1.0)
 		{
 			p->exp++;
 			num *= 2;
