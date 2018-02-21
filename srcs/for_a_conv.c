@@ -15,9 +15,9 @@
 void	get_exponent_for_a(t_p *p, long double num)
 {
 	p->exp = 0;
-	if (num >= 1.99)
+	if (num >= 2.00)
 	{
-		while (num > 1.99)
+		while (num > 2.00)
 		{
 			p->exp++;
 			num /= 2;
