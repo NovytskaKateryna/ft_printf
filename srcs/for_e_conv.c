@@ -21,7 +21,6 @@ void	get_exponent(t_p *p, long double num)
 		{
 			p->exp++;
 			num /= 10;
-		//	printf("num->%Lf\n", num);
 		}
 		p->exp_sign = '+';
 	}
@@ -34,7 +33,6 @@ void	get_exponent(t_p *p, long double num)
 		}
 		p->exp_sign = '-';
 	}
-	//printf("exp->%i\n", p->exp);
 	p->num = num;
 }
 

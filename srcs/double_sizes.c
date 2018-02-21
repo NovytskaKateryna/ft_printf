@@ -56,9 +56,12 @@ void	round_ipart_for_a(t_p *p)
 {
 	p->f.precision = 1;
 	round_fract_for_a(p);
-	if ((p->fr_part % 16) >= 8 && (p->fr_part % 16) != (p->i_part % 16))
+//	printf("i_part->%llx fr_part->%llx\n", p->i_part, p->fr_part);
+	if ((p->fr_part % 16) > 8 && (p->fr_part % 16) != (p->i_part % 16))
 		p->i_part = p->i_part + 1;
 	p->fr_size = 0;
+	p->dec_point = 0;
+	p->f.precision = 0;
 }
 
 void	a_size(t_p *p, unsigned long i_p, unsigned long f_p)
@@ -72,12 +75,9 @@ void	a_size(t_p *p, unsigned long i_p, unsigned long f_p)
 		p->i_size++;
 	}
 	p->fr_size = 0;
-	// if (p->fr_part != 0)
-	// 	p->fr_size += p->zero_fr;
 	f_p = p->fr_part;
 	while (f_p != 0)
 	{
-	//	printf("while\n");
 		f_p /= 16;
 		p->fr_size++;
 	}

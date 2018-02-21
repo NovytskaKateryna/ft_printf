@@ -85,6 +85,7 @@ int		scientific_notation_conversions(t_p *p, va_list ar, t_operation *oper)
 int		hexadecimal_notation_conversions(t_p *p, va_list ar, t_operation *oper)
 {
 	long double	arg;
+	int 		i;
 
 	if (p->f.modifier == 'L')
 		arg = va_arg(ar, long double);
@@ -93,11 +94,16 @@ int		hexadecimal_notation_conversions(t_p *p, va_list ar, t_operation *oper)
 	put_marks(p, ft_strlen(p->f.flags), p->f.conversion);
 	(p->zero_pad && (p->f.precision < p->f.width)) ? p->zero_pad :
 					(p->zero_pad = 0);
+	i = ft_strlen(p->f.flags);
+	while (--i >= 0)
+		if (p->f.flags[i] == '#')
+			p->prefix = 1;
 	if (!(check_float_values(p, arg, p->f.conversion)))
 		p->value = for_a_conv(p, arg);
 	p->value_len = ft_strlen(p->value);
 	p->f.precision = 0;
 	p->precision = 0;
+	p->prefix = 0;
 	manage_operations(p, oper);
 	p->value_len = ft_strlen(p->output);
 	return (p->value_len);
