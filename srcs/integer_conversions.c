@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int 		get_base(char conv)
+int 	get_base(char conv)
 {
 	if (conv == 'x' || conv == 'X')
 		return (16);
@@ -23,14 +23,7 @@ int 		get_base(char conv)
 	return (10);
 }
 
-int 		is_zero_precision(t_out *out)
-{
-	if (!(out->f.precision) && out->precision)
-		return (1);
-	return (0);
-}
-
-void		unsigned_conversions(t_out *out, va_list ar, t_flags *oper)
+void	unsigned_conversions(t_out *out, va_list ar, t_flags *oper)
 {
 	out->arg = va_arg(ar, void*);
 	manage_unsigned_modifier(out, get_base(out->f.conversion));
@@ -42,14 +35,14 @@ void		unsigned_conversions(t_out *out, va_list ar, t_flags *oper)
 	manage_operations(out, oper);
 }
 
-void		signed_conversions(t_out *out, va_list ar, t_flags *oper)
+void	signed_conversions(t_out *out, va_list ar, t_flags *oper)
 {
 	out->arg = va_arg(ar, void*);
 	manage_decimal_modidfier(out, 10);
 	if (out->value[0] == '-')
 		out->minus_sign = 1;
 	out->value_len = ft_strlen(out->value);
-	if (is_zero_precision(out))
+	if (!(out->f.precision) && out->precision)
 	{
 		if (out->value[0] == '0')
 			out->value_len = 0;

@@ -82,10 +82,8 @@ int		write_format(t_out *out, const char *format, va_list ar, int j)
 	while (fmt_flags(format[j]))
 	{
 		while (c-- > 0)
-		{
 			while (out->f.flags[c] == format[j])
 				j++;
-		}
 		if (format[j] == 39)
 		{
 			out->apostr = 1;

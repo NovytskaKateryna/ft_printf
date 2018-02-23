@@ -30,8 +30,6 @@ void	f_conversion(t_out *out, va_list ar, t_flags *oper)
 	if (out->apostr)
 		apostr_f_production(out);
 	manage_operations(out, oper);
-	// out->value_len = ft_strlen(out->output);
-	// write(1, out->output, out->value_len);
 }
 
 void	e_conversion(t_out *out, va_list ar, t_flags *oper)
@@ -50,8 +48,6 @@ void	e_conversion(t_out *out, va_list ar, t_flags *oper)
 	out->f.precision = 0;
 	out->precision = 0;
 	manage_operations(out, oper);
-	// out->value_len = ft_strlen(out->output);
-	// write(1, out->output, out->value_len);
 }
 
 void	g_conversion(t_out *out, va_list ar, t_flags *oper)
@@ -78,8 +74,6 @@ void	g_conversion(t_out *out, va_list ar, t_flags *oper)
 	out->precision = 0;
 	out->prefix = 0;
 	manage_operations(out, oper);
-	// out->value_len = ft_strlen(out->output);
-	// write(1, out->output, out->value_len);
 }
 
 void	a_conversion(t_out *out, va_list ar, t_flags *oper)
@@ -105,6 +99,4 @@ void	a_conversion(t_out *out, va_list ar, t_flags *oper)
 	out->precision = 0;
 	out->prefix = 0;
 	manage_operations(out, oper);
-	// out->value_len = ft_strlen(out->output);
-	// write(1, out->output, out->value_len);
 }
