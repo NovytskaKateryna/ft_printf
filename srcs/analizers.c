@@ -71,7 +71,6 @@ void	output_analize(t_out *out, va_list ar)
 		array_ot_flags(flags);
 	}
 	analizer[(int)out->f.conversion](out, ar, flags);
-//	printf("analizer->%p\n", out->value);
-	// if (out->value != NULL)
-	// 	free(out->value);
+	if (out->value != NULL)
+		free(out->value);
 }

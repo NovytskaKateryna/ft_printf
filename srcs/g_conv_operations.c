@@ -43,16 +43,18 @@ void	round_ipart_for_g(t_out *out)
 	{
 		out->f.precision = 2;
 		round_fpart_for_g(out);
-		if (out->d.i_part > 5)
+		if (out->d.fr_part > 5)
+			out->d.i_part += 1;
+		else if (out->d.i_part > 5)
 			out->d.i_part = 1;
 	}
 	else if (out->prefix || out->d.exp)
 	{
 		if (out->d.fr_part > 5)
 			out->d.i_part += 1;
-		if (!(out->prefix))
-			out->d.dec_point = 0;
 	}
+	if (!(out->prefix))
+			out->d.dec_point = 0;
 	out->d.fr_size = 0;
 }
 
@@ -67,10 +69,6 @@ void	g_size(t_out *out)
 		round_fpart_for_g(out);
 	if (out->d.i_size >= out->f.precision || out->prefix)
 		round_ipart_for_g(out);
-	if (out->d.exp &&
-		((out->d.i_size + out->d.fr_size) > out->f.precision || out->f.precision == 1))
-		{
-	//		printf("else if\n");
-			round_ipart_for_g(out);
-		}
+	if (out->d.exp && (out->d.i_size + out->d.fr_size) > out->f.precision)
+		round_ipart_for_g(out);
 }
