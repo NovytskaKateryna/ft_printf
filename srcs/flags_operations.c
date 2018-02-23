@@ -53,7 +53,7 @@ void	space_production(t_out *out)
 {
 	if (out->space && out->f.conversion != '%' &&
 		out->f.conversion != 0 && out->f.conversion != 'c' &&
-		!(out->plus_sign) && !(out->f.width))
+		!(out->plus_sign) && !(out->zero_pad))
 	{
 		write(1, " ", 1);
 		out->out_len++;

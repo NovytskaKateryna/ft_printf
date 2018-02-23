@@ -19,7 +19,7 @@ void	manage_width(t_out *out, int length)
 	length = out->f.width - out->value_len - out->prefix - out->plus_sign;
 	if ((out->value_len - out->minus_sign) < out->f.precision &&
 		out->f.width > out->f.precision)
-		length = out->f.width - (out->f.precision + out->minus_sign + out->plus_sign);
+		length = out->f.width - (out->f.precision + out->minus_sign + out->plus_sign + out->space);
 	if (out->f.precision > out->f.width ||
 		(out->f.width < (out->value_len + out->prefix)))
 		length = 0;
