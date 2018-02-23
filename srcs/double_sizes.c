@@ -51,10 +51,14 @@ void 	f_part_size(t_out *out, unsigned long f_p, int base)
 
 void	check_dec_point(t_out *out, long double num, char conv)
 {
-	if ((conv == 'g' || conv == 'G') && (out->f.precision != 1 || num != 0.0 ||
-		out->prefix))
-		out->d.dec_point = 1;
-	else if ((conv == 'a' || conv == 'A') && ((!(!(out->f.precision) && out->precision)) ||
-		num != 0.0 || out->d.fr_part != 0 || out->prefix))
-	 	out->d.dec_point = 1;
+	if (conv == 'g' || conv == 'G')
+	{
+		if (out->f.precision != 1 || num != 0.0 || out->prefix)
+			out->d.dec_point = 1;
+	}
+	else if (conv == 'a' || conv == 'A')
+	{
+	 	if ((num != 0.0 && out->d.fr_part != 0) || out->f.precision || out->prefix)
+	 		out->d.dec_point = 1;
+	}
 }

@@ -27,8 +27,6 @@ char	*a_str(t_out *out, char *str, int size, char hex)
 			((out->d.fr_part % 16) >= 10 ? (hex - 10) : '0');
 		out->d.fr_part /= 16;
 	}
-	while (out->d.zero_fr-- > 0)
-		str[--size] = '0';
 	out->d.dec_point ? str[--size] = '.' : size;
 	while (out->d.i_size-- > 0)
 	{
