@@ -12,26 +12,26 @@
 
 #include "ft_printf.h"
 
-int		check_float_values(t_p *p, long double arg, char conv)
+int		check_float_values(t_out *out, long double arg, char conv)
 {
 	if ((arg == 1.0 / 0.0) && (conv == 'f' ||
 		conv == 'a' || conv == 'g' || conv == 'e'))
-		p->value = ft_strdup("inf");
+		out->value = ft_strdup("inf");
 	else if ((arg == 1.0 / 0.0) && (conv == 'F' || conv == 'A' ||
 		conv == 'G' || conv == 'E'))
-		p->value = ft_strdup("INF");
+		out->value = ft_strdup("INF");
 	else if ((arg == -(1.0 / 0.0)) && (conv == 'f' || conv == 'a' ||
 		conv == 'g' || conv == 'e'))
-		p->value = ft_strdup("-inf");
+		out->value = ft_strdup("-inf");
 	else if ((arg == -(1.0 / 0.0)) && (conv == 'F' || conv == 'A' ||
 		conv == 'G' || conv == 'E'))
-		p->value = ft_strdup("-INF");
+		out->value = ft_strdup("-INF");
 	else if ((arg != arg) && (conv == 'f' || conv == 'a' ||
 		conv == 'g' || conv == 'e'))
-		p->value = ft_strdup("nan");
+		out->value = ft_strdup("nan");
 	else if ((arg != arg) && (conv == 'F' || conv == 'A' ||
 		conv == 'G' || conv == 'E'))
-		p->value = ft_strdup("NAN");
+		out->value = ft_strdup("NAN");
 	else
 		return (0);
 	return (1);

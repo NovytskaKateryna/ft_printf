@@ -12,60 +12,59 @@
 
 #include "ft_printf.h"
 
-void	reset_values(t_p *p)
+void	reset_values(t_out *out)
 {
-	ft_bzero(p->output, 8000);
-	p->value_len = 0;
-	p->value = NULL;
-	p->f.conversion = 0;
-	p->f.width = 0;
-	p->f.precision = 0;
-	p->minus_sign = 0;
-	p->apostr = 0;
-	p->plus_sign = 0;
-	p->left_justify = 0;
-	p->prefix = 0;
-	p->f.modifier = 0;
-	p->zero_pad = 0;
-	p->pointer = 0;
-	p->precision = 0;
-	p->space = 0;
-	p->flags = 0;
-	p->i_part = 0;
-	p->fr_part = 0;
-	p->zero_fr = 0;
-	p->dec_point = 0;
-	p->exp = 0;
-	p->num = 0;
-	ft_bzero(p->f.flags, 5);
+	ft_bzero(out->f.flags, 5);
+	out->value_len = 0;
+	out->value = NULL;
+	out->f.modifier = 0;
+	out->f.conversion = 0;
+	out->f.width = 0;
+	out->f.precision = 0;
+	out->minus_sign = 0;
+	out->apostr = 0;
+	out->plus_sign = 0;
+	out->left_justify = 0;
+	out->prefix = 0;
+	out->zero_pad = 0;
+	out->pointer = 0;
+	out->precision = 0;
+	out->space = 0;
+	out->flags = 0;
+	out->d.i_part = 0;
+	out->d.fr_part = 0;
+	out->d.zero_fr = 0;
+	out->d.dec_point = 0;
+	out->d.exp = 0;
+	out->d.num = 0;
 }
 
-t_p		*p_initialise(t_p *k)
+t_out	p_initialise(void)
 {
-	k = (t_p*)malloc(sizeof(t_p));
-	k->output = (char*)malloc(sizeof(char) * 8000);
-	ft_bzero(k->output, 8000);
-	k->f.conversion = 0;
-	k->out_len = 0;
-	k->f.width = 0;
-	k->f.precision = 0;
-	k->minus_sign = 0;
-	k->plus_sign = 0;
-	k->left_justify = 0;
-	k->prefix = 0;
-	k->f.modifier = 0;
-	k->zero_pad = 0;
-	k->space = 0;
-	k->pointer = 0;
-	k->precision = 0;
-	k->flags = 0;
-	k->i_part = 0;
-	k->fr_part = 0;
-	k->zero_fr = 0;
-	k->apostr = 0;
-	k->dec_point = 0;
-	k->exp = 0;
-	k->num = 0;
-	ft_bzero(k->f.flags, 5);
-	return (k);
+	t_out out;
+	
+	ft_bzero(out.f.flags, 5);
+	out.f.conversion = 0;
+	out.f.width = 0;
+	out.f.precision = 0;
+	out.out_len = 0;
+	out.value_len = 0;
+	out.minus_sign = 0;
+	out.plus_sign = 0;
+	out.left_justify = 0;
+	out.prefix = 0;
+	out.f.modifier = 0;
+	out.zero_pad = 0;
+	out.space = 0;
+	out.pointer = 0;
+	out.precision = 0;
+	out.flags = 0;
+	out.d.i_part = 0;
+	out.d.fr_part = 0;
+	out.d.zero_fr = 0;
+	out.apostr = 0;
+	out.d.dec_point = 0;
+	out.d.exp = 0;
+	out.d.num = 0;
+	return (out);
 }

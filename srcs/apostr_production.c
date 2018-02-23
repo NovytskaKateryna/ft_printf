@@ -12,15 +12,15 @@
 
 #include "ft_printf.h"
 
-char	*str_apostr(t_p *p, char *str, int value_len, int size)
+char	*str_apostr(t_out *out, char *str, int value_len, int size)
 {
 	int	ap;
 
 	ap = 0;
 	str[size] = '\0';
-	while (size > p->minus_sign)
+	while (size > out->minus_sign)
 	{
-		str[--size] = p->value[--value_len];
+		str[--size] = out->value[--value_len];
 		ap++;
 		if (ap == 3)
 		{
@@ -28,40 +28,40 @@ char	*str_apostr(t_p *p, char *str, int value_len, int size)
 			ap = 0;
 		}
 	}
-	p->minus_sign ? (str[0] = '-') : 0;
+	out->minus_sign ? (str[0] = '-') : 0;
 	return (str);
 }
 
-void	apostr_production(t_p *p)
+void	apostr_production(t_out *out)
 {
 	char	*str;
 	int		size;
 	int		ap;
 
 	ap = 0;
-	p->value_len -= p->minus_sign;
-	(p->value_len != 3) ? (ap = p->value_len / 3) : ap;
-	((p->value_len % 3) == 0 && (p->value_len != 3)) ? (ap -= 1) : ap;
-	p->value_len += p->minus_sign;
-	size = p->value_len + ap;
+	out->value_len -= out->minus_sign;
+	(out->value_len != 3) ? (ap = out->value_len / 3) : ap;
+	((out->value_len % 3) == 0 && (out->value_len != 3)) ? (ap -= 1) : ap;
+	out->value_len += out->minus_sign;
+	size = out->value_len + ap;
 	str = (char*)malloc(sizeof(char) * (size + 1));
-	str = str_apostr(p, str, p->value_len, size);
-	free(p->value);
-	p->value = str;
-	p->value_len = ft_strlen(p->value);
+	str = str_apostr(out, str, out->value_len, size);
+	free(out->value);
+	out->value = str;
+	out->value_len = ft_strlen(out->value);
 }
 
-char	*str_f_apostr(t_p *p, char *str, int size)
+char	*str_f_apostr(t_out *out, char *str, int size)
 {
 	int ap;
 
 	ap = 0;
 	str[size] = '\0';
-	while (p->fr_size-- > 0)
-		str[--size] = p->value[p->fr_size + p->i_size];
-	while (size > p->minus_sign)
+	while (out->d.fr_size-- > 0)
+		str[--size] = out->value[out->d.fr_size + out->d.i_size];
+	while (size > out->minus_sign)
 	{
-		str[--size] = p->value[--p->i_size];
+		str[--size] = out->value[--out->d.i_size];
 		ap++;
 		if (ap == 3)
 		{
@@ -69,31 +69,31 @@ char	*str_f_apostr(t_p *p, char *str, int size)
 			ap = 0;
 		}
 	}
-	p->minus_sign ? (str[0] = '-') : 0;
+	out->minus_sign ? (str[0] = '-') : 0;
 	return (str);
 }
 
-void	apostr_f_production(t_p *p)
+void	apostr_f_production(t_out *out)
 {
 	char	*str;
 	int		size;
 	int		ap;
 
 	ap = 0;
-	p->i_size = 0;
-	while (p->value[p->i_size] != '.' && p->value[p->i_size] != '\0')
-		p->i_size++;
-	p->fr_size = 0;
-	while (p->value[p->i_size + p->fr_size] != '\0')
-		p->fr_size++;
-	p->i_size -= p->minus_sign;
-	(p->i_size != 3) ? (ap = p->i_size / 3) : ap;
-	((p->i_size % 3) == 0 && (p->i_size != 3)) ? (ap -= 1) : ap;
-	p->i_size += p->minus_sign;
-	size = p->i_size + p->fr_size + ap;
+	out->d.i_size = 0;
+	while (out->value[out->d.i_size] != '.' && out->value[out->d.i_size] != '\0')
+		out->d.i_size++;
+	out->d.fr_size = 0;
+	while (out->value[out->d.i_size + out->d.fr_size] != '\0')
+		out->d.fr_size++;
+	out->d.i_size -= out->minus_sign;
+	(out->d.i_size != 3) ? (ap = out->d.i_size / 3) : ap;
+	((out->d.i_size % 3) == 0 && (out->d.i_size != 3)) ? (ap -= 1) : ap;
+	out->d.i_size += out->minus_sign;
+	size = out->d.i_size + out->d.fr_size + ap;
 	str = (char*)malloc(sizeof(char) * (size + 1));
-	str = str_f_apostr(p, str, size);
-	free(p->value);
-	p->value = str;
-	p->value_len = ft_strlen(p->value);
+	str = str_f_apostr(out, str, size);
+	free(out->value);
+	out->value = str;
+	out->value_len = ft_strlen(out->value);
 }

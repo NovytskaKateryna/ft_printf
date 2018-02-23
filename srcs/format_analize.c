@@ -12,85 +12,91 @@
 
 #include "ft_printf.h"
 
-int		write_format2(t_p *p, char *format, int j)
+int		write_format2(t_out *out, const char *format, int j)
 {
 	int i;
 
 	i = -1;
-	while (i++ < 2 && f_size_modifier(format[j]))
+	while (i++ < 2 && fmt_size_modifier(format[j]))
 		j++;
 	if (i != -1)
 	{
-		i == 1 ? (p->f.modifier = format[--j]) :
-		(p->f.modifier = format[--j] - 32);
+		i == 1 ? (out->f.modifier = format[--j]) :
+		(out->f.modifier = format[--j] - 32);
 		j++;
 	}
-	if (f_conversion(format[j]))
-		p->f.conversion = format[j];
+	if (fmt_conversion(format[j]))
+		out->f.conversion = format[j];
 	return (j);
 }
 
-int		write_width(t_p *p, char *format, va_list ar, int j)
+int		write_width(t_out *out, const char *format, va_list ar, int j)
 {
-	while (f_field_width(format[j]))
+	while (fmt_field_width(format[j]))
 	{
 		if (format[j] == '*')
 		{
-			if ((p->f.width = va_arg(ar, int)) < 0)
-				p->left_justify = 1;
-			p->f.width = ABS(p->f.width);
+			if ((out->f.width = va_arg(ar, int)) < 0)
+				out->left_justify = 1;
+			out->f.width = ABS(out->f.width);
 			j++;
 		}
 		else
 		{
-			p->f.width = ft_atoi(&format[j]);
-			while (f_field_width(format[j]) && format[j] != '*')
+			out->f.width = ft_atoi(&format[j]);
+			while (fmt_field_width(format[j]) && format[j] != '*')
 				j++;
 		}
 	}
 	return (j);
 }
 
-int		write_precision(t_p *p, char *format, va_list ar, int j)
+int		write_precision(t_out *out, const char *format, va_list ar, int j)
 {
-	if (f_precision(format[j]))
+	if (fmt_precision(format[j]))
 	{
-		p->precision = 1;
+		out->precision = 1;
 		if (format[++j] == '*')
 		{
-			if ((p->f.precision = va_arg(ar, int)) < 0)
+			if ((out->f.precision = va_arg(ar, int)) < 0)
 			{
-				p->f.precision = 0;
-				p->precision = 0;
+				out->f.precision = 0;
+				out->precision = 0;
 			}
 		}
 		else
-			p->f.precision = ft_atoi(&format[j]);
-		while (f_field_width(format[j]))
+			out->f.precision = ft_atoi(&format[j]);
+		while (fmt_field_width(format[j]))
 			j++;
 	}
 	return (j);
 }
 
-int		write_format(t_p *p, char *format, va_list ar, int j)
+int		write_format(t_out *out, const char *format, va_list ar, int j)
 {
 	int i;
+	int c;
 
 	i = 0;
-	while (f_flags(format[j]))
+	c = 0;
+	while (fmt_flags(format[j]))
 	{
+		while (c-- > 0)
+			if (out->f.flags[c] == format[j])
+					j++;
 		if (format[j] == 39)
 		{
-			p->apostr = 1;
+			out->apostr = 1;
 			j++;
 		}
-		else
+		else if (fmt_flags(format[j]))
 		{
-			p->f.flags[i++] = format[j++];
-			p->flags = 1;
+			out->f.flags[i++] = format[j++];
+			out->flags = 1;
+			c = i;
 		}
 	}
-	j = write_width(p, format, ar, j);
-	j = write_precision(p, format, ar, j);
-	return (write_format2(p, format, j));
+	j = write_width(out, format, ar, j);
+	j = write_precision(out, format, ar, j);
+	return (write_format2(out, format, j));
 }

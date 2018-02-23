@@ -12,110 +12,70 @@
 
 #include "ft_printf.h"
 
-void	manage_width(t_p *p, int start, int j, int end)
+void	manage_width(t_out *out, int length)
 {
-	end = p->f.width - p->value_len;
-	if (p->left_justify && !(p->f.conversion == 'c' && p->value[0] == 0))
-	{
-		start = p->value_len;
-		end = p->f.width;
-	}
-	while (start < end)
-		p->output[start++] = ' ';
-	if (p->left_justify)
-	{
-		start = p->space + p->prefix + p->plus_sign;
-		end = p->value_len + p->space + p->prefix + p->plus_sign;
-	}
-	else
-		end = p->f.width;
-	if (p->f.conversion == 'c' && p->value[0] == 0 && p->left_justify)
-	{
-		write(1, p->value, p->value_len);
-		p->out_len += p->value_len;
-		p->value_len = 0;
-		end = 0;
-	}
-	while (start < end && p->value != NULL)
-		p->output[start++] = p->value[j++];
-}
-
-void	left_justify_precision(t_p *p, int start, int end, int j)
-{
-	if (p->prefix == 2)
-	{
-		start = p->prefix;
-		p->f.precision += p->prefix;
-	}
-	else if (p->minus_sign)
-	{
-		start = p->minus_sign;
-		p->f.precision += p->minus_sign;
-	}
-	else
-		start = p->plus_sign;
-	end = p->f.precision - p->value_len + p->minus_sign + p->plus_sign;
-	while (start < end)
-		p->output[start++] = '0';
-	j = p->minus_sign;
-	while (end < p->f.precision + p->plus_sign)
-		p->output[end++] = p->value[j++];
-}
-
-void	string_precision(t_p *p, int start, int end, int j)
-{
-	if (p->f.width > p->f.precision || p->f.precision > p->value_len)
-		end = p->f.width;
-	else
-		end = p->f.precision;
-	if (p->f.precision > p->value_len)
-	{
-		if (p->f.width > p->value_len)
-			end = p->f.width;
-		else
-			end = p->value_len;
-	}
-	while (start < end && p->f.width)
-		p->output[start++] = ' ';
-	j = 0;
-	start = 0;
-	if (p->value_len >= p->f.precision && !(p->left_justify))
-		start = end - p->f.precision;
-	else if (p->value_len < p->f.precision && p->f.width)
-		start = end - p->value_len;
-	if (p->left_justify && p->value_len > p->f.precision)
-		end = p->f.precision;
-	if (p->value_len < p->f.precision && !(p->f.width))
-		end = p->value_len;
-	while (start < end && p->value)
-		p->output[start++] = p->value[j++];
-}
-
-void	manage_precision(t_p *p)
-{
-	int start;
-	int end;
-	int j;
-
-	if (p->value_len <= p->f.precision && p->f.conversion != 's')
-	{
-		(p->f.width >= p->f.precision) ? (start = p->f.width - p->f.precision) :
-			(start = p->minus_sign + p->prefix + p->space);
-		(p->f.width >= p->f.precision) ? (end = p->f.width - p->value_len) :
-			(end = p->f.precision - p->value_len +
-				p->minus_sign + p->prefix + p->space);
-		if ((p->minus_sign || !(p->left_justify)) && p->f.width)
+//	printf("length = %i - %i - %i - %i\n", out->f.width, out->value_len, out->prefix, out->plus_sign);
+	if (out->zero_pad && !(out->left_justify) && !(out->f.precision))
+		return ;
+	length = out->f.width - out->value_len - out->prefix - out->plus_sign;
+	if ((out->value_len - out->minus_sign) < out->f.precision &&
+		out->f.width > out->f.precision)
+		length = out->f.width - (out->f.precision +
+			out->minus_sign + out->plus_sign) - out->space;
+	if (out->f.precision > out->f.width ||
+		(out->f.width < out->value_len + out->prefix))
+		length = 0;
+	if ((out->f.conversion == 's') && out->f.precision)
 		{
-			if (p->minus_sign)
-				p->output[start - p->minus_sign] = '-';
-			end += p->minus_sign;
-			while (start < end)
-				p->output[start++] = '0';
-			j = p->minus_sign;
-			while (end < p->f.precision + p->minus_sign + p->prefix + p->space)
-				p->output[end++] = p->value[j++];
+			if (out->value_len < out->f.precision)
+				length = out->f.width - out->value_len;
+			else if (out->value_len > out->f.precision)
+				length = out->f.width - out->f.precision;
 		}
-		else if (p->left_justify || !(p->f.width))
-			left_justify_precision(p, 0, 0, 0);
+//	printf("len->%i\n", length);
+	out->out_len += length;
+	while (length-- > 0)
+		write(1, " ", 1);
+}
+
+void	manage_max_precision(t_out *out)
+{
+	int length;
+
+	length = 0;
+	if (out->value_len > out->f.width && out->f.precision < out->f.width)
+		length = out->f.width - out->f.precision;
+	if (out->value_len > out->f.precision)
+		out->value_len = out->f.precision;
+	out->out_len += length;
+//	printf("len->%i\n", length);
+	while (length-- > 0)
+		write(1, " ", 1);
+	write(1, out->value, out->value_len);
+	out->out_len += out->value_len;
+}
+
+void	manage_min_precision(t_out *out)
+{
+	int length;
+
+	length = 0;
+	if ((out->value_len - out->minus_sign) < out->f.precision)
+	{
+		if (out->minus_sign)
+			write(1, "-", 1);
+		length = out->f.precision - out->value_len + out->minus_sign;
+	//	 printf("length->%i\n",length );
+		// printf("zro->%i pref->%i\n", out->zero_pad, out->prefix);
+		if (out->prefix == 1)
+			length -= out->prefix;
+	//	printf("length->%i\n",length );
+		out->out_len += length;
+		while (length-- > 0)
+			write(1, "0", 1);
+		write(1, &out->value[out->minus_sign], out->value_len - out->minus_sign);
 	}
+	else
+		write(1, out->value, out->value_len);
+	out->out_len += out->value_len;
 }

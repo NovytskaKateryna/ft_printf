@@ -6,13 +6,13 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 10:21:01 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/17 16:20:16 by knovytsk         ###   ########.fr       */
+/*   Uoutdated: 2018/02/17 16:20:16 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		check_color(char *format, int j, int i)
+int		check_color(const char *format, int j, int i)
 {
 	char	color[100];
 
@@ -40,31 +40,28 @@ int		check_color(char *format, int j, int i)
 	return (i + 2);
 }
 
-int		output_length(const char *f, va_list ar, t_p *p)
+int		output_length(const char *format, va_list ar, t_out *out)
 {
 	int		j;
 	int		format_len;
-	char	*format;
 
 	j = -1;
-	format = ft_strdup(f);
 	format_len = ft_strlen(format);
 	while (++j < format_len)
 	{
 		(format[j] == '{') ? (j += check_color(format, j, 0)) : j;
 		if (format[j] == '%')
 		{
-			j = write_format(p, format, ar, ++j);
-			(!(p->f.conversion)) ? (p->value = ft_strdup(&format[j])) : 0;
-			output_analize(p, ar);
-			reset_values(p);
+			j = write_format(out, format, ar, ++j);
+			(!(out->f.conversion)) ? (out->value = ft_strdup(&format[j])) : 0;
+			output_analize(out, ar);
+			reset_values(out);
 		}
 		else
 		{
 			write(1, &format[j], 1);
-			p->out_len++;
+			out->out_len++;
 		}
 	}
-	ft_strdel(&format);
-	return (p->out_len);
+	return (out->out_len);
 }

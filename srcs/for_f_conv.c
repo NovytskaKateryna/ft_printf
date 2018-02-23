@@ -12,46 +12,44 @@
 
 #include "ft_printf.h"
 
-void	separate_num(t_p *p, long double num)
+void	separate_num(t_out *out, long double num)
 {
 	long double fract_part;
 	int			n;
 
-	p->i_part = (unsigned long int)num;
-	fract_part = num - p->i_part;
-	p->zero_fr = 0;
-	//printf("i->%llu f->%Lf\n", p->i_part, fract_part);
+	out->d.i_part = (unsigned long int)num;
+	fract_part = num - out->d.i_part;
+	out->d.zero_fr = 0;
 	n = 0;
-	while (n < p->f.precision)
+	while (n < out->f.precision)
 	{
 		fract_part *= 10.0000;
-	//	printf("fract->%Lf\n", fract_part);
-		p->fr_part = (unsigned long int)(fract_part + 0.5);
+		out->d.fr_part = (unsigned long int)(fract_part + 0.5);
 		if ((int)fract_part == 0)
-			p->zero_fr++;
+			out->d.zero_fr++;
 		n++;
 	}
 }
 
-char	*f_str(t_p *p, char *str, int size)
+char	*f_str(t_out *out, char *str, int size)
 {
 	str[size] = '\0';
-	while (p->fr_size-- > 0)
+	while (out->d.fr_size-- > 0)
 	{
-		str[--size] = (p->fr_part % 10) + 48;
-		p->fr_part /= 10;
+		str[--size] = (out->d.fr_part % 10) + 48;
+		out->d.fr_part /= 10;
 	}
-	p->dec_point ? str[--size] = '.' : size;
-	while (p->i_size-- > 0)
+	out->d.dec_point ? str[--size] = '.' : size;
+	while (out->d.i_size-- > 0)
 	{
-		str[--size] = (p->i_part % 10) + 48;
-		p->i_part /= 10;
+		str[--size] = (out->d.i_part % 10) + 48;
+		out->d.i_part /= 10;
 	}
-	p->minus_sign ? (str[0] = '-') : 0;
+	out->minus_sign ? (str[0] = '-') : 0;
 	return (str);
 }
 
-char	*for_f_conv(t_p *p, long double num)
+char	*for_f_conv(t_out *out, long double num)
 {
 	char	*str;
 	int		size;
@@ -59,15 +57,15 @@ char	*for_f_conv(t_p *p, long double num)
 	if (num < 0)
 	{
 		num *= (-1);
-		p->minus_sign = 1;
+		out->minus_sign = 1;
 	}
-	separate_num(p, num);
-	(!(p->f.precision) && p->precision) ? 0 : (p->dec_point = 1);
-	p->fr_size = p->f.precision;
-	i_part_size(p, p->i_part);
-	size = p->i_size + p->fr_size + p->minus_sign + p->dec_point;
+	separate_num(out, num);
+	(!(out->f.precision) && out->precision) ? 0 : (out->d.dec_point = 1);
+	out->d.fr_size = out->f.precision;
+	i_part_size(out, out->d.i_part, 10);
+	size = out->d.i_size + out->d.fr_size + out->minus_sign + out->d.dec_point;
 	if (!(str = (char*)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
-	str = f_str(p, str, size);
+	str = f_str(out, str, size);
 	return (str);
 }

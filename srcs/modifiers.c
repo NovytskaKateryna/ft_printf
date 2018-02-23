@@ -12,39 +12,39 @@
 
 #include "ft_printf.h"
 
-void	manage_unsigned_modifier(t_p *p, int base)
+void	manage_unsigned_modifier(t_out *out, int base)
 {
-	if (p->f.modifier == 'z')
-		p->value = f_unsigned_int((size_t)p->arg, base);
-	else if (p->f.modifier == 'j')
-		p->value = f_unsigned_int((uintmax_t)p->arg, base);
-	else if (p->f.modifier == 'L')
-		p->value = f_unsigned_int((unsigned long long int)p->arg, base);
-	else if (p->f.modifier == 'l' || p->f.conversion == 'U' ||
-		p->f.conversion == 'O')
-		p->value = f_unsigned_int((unsigned long int)p->arg, base);
-	else if (p->f.modifier == 'h')
-		p->value = f_unsigned_int((unsigned short int)p->arg, base);
-	else if (p->f.modifier == 'H')
-		p->value = f_unsigned_int((unsigned char)p->arg, base);
+	if (out->f.modifier == 'z')
+		out->value = f_unsigned_int((size_t)out->arg, base);
+	else if (out->f.modifier == 'j')
+		out->value = f_unsigned_int((uintmax_t)out->arg, base);
+	else if (out->f.modifier == 'L')
+		out->value = f_unsigned_int((unsigned long long int)out->arg, base);
+	else if (out->f.modifier == 'l' || out->f.conversion == 'U' ||
+		out->f.conversion == 'O')
+		out->value = f_unsigned_int((unsigned long int)out->arg, base);
+	else if (out->f.modifier == 'h')
+		out->value = f_unsigned_int((unsigned short int)out->arg, base);
+	else if (out->f.modifier == 'H')
+		out->value = f_unsigned_int((unsigned char)out->arg, base);
 	else
-		p->value = f_unsigned_int((unsigned int)p->arg, base);
+		out->value = f_unsigned_int((unsigned int)out->arg, base);
 }
 
-void	manage_decimal_modidfier(t_p *p, int base)
+void	manage_decimal_modidfier(t_out *out, int base)
 {
-	if (p->f.modifier == 'z')
-		p->value = f_int_base((size_t)p->arg, base);
-	else if (p->f.modifier == 'j')
-		p->value = f_int_base((intmax_t)p->arg, base);
-	else if (p->f.modifier == 'L')
-		p->value = f_int_base((long long int)p->arg, base);
-	else if (p->f.modifier == 'l' || p->f.conversion == 'D')
-		p->value = f_int_base((long int)p->arg, base);
-	else if (p->f.modifier == 'h')
-		p->value = f_int_base((short int)p->arg, base);
-	else if (p->f.modifier == 'H')
-		p->value = f_int_base((signed char)p->arg, base);
+	if (out->f.modifier == 'z')
+		out->value = f_int_base((size_t)out->arg, base);
+	else if (out->f.modifier == 'j')
+		out->value = f_int_base((intmax_t)out->arg, base);
+	else if (out->f.modifier == 'L')
+		out->value = f_int_base((long long int)out->arg, base);
+	else if (out->f.modifier == 'l' || out->f.conversion == 'D')
+		out->value = f_int_base((long int)out->arg, base);
+	else if (out->f.modifier == 'h')
+		out->value = f_int_base((short int)out->arg, base);
+	else if (out->f.modifier == 'H')
+		out->value = f_int_base((signed char)out->arg, base);
 	else
-		p->value = f_int_base((int)p->arg, base);
+		out->value = f_int_base((int)out->arg, base);
 }

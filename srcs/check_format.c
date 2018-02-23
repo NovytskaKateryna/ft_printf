@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int		f_flags(char f)
+int		fmt_flags(char f)
 {
 	if (f == '-' || f == '0' || f == '+' || f == ' ' || f == '#' ||
 		f == 39)
@@ -20,28 +20,28 @@ int		f_flags(char f)
 	return (0);
 }
 
-int		f_field_width(char f)
+int		fmt_field_width(char f)
 {
 	if ((f >= '0' && f <= '9') || f == '*')
 		return (1);
 	return (0);
 }
 
-int		f_precision(char f)
+int		fmt_precision(char f)
 {
 	if (f == '.')
 		return (1);
 	return (0);
 }
 
-int		f_size_modifier(char f)
+int		fmt_size_modifier(char f)
 {
 	if (f == 'z' || f == 'j' || f == 'l' || f == 'h' || f == 'L')
 		return (1);
 	return (0);
 }
 
-int		f_conversion(char f)
+int		fmt_conversion(char f)
 {
 	if (f == 'c' || f == 'C' || f == 's' || f == 'S' || f == '%' ||
 		f == 'd' || f == 'i' || f == 'o' || f == 'u' || f == 'x' ||

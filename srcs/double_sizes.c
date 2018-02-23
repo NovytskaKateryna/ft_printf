@@ -12,115 +12,49 @@
 
 #include "ft_printf.h"
 
-int		exp_size(t_p *p, int exp)
+void	exp_size(t_out *out, int exp, char conv)
 {
-	int size;
-
-	size = 0;
+	out->d.exp_size = 0;
 	if (exp == 0)
-		size++;
+		out->d.exp_size++;
 	while (exp != 0)
 	{
 		exp /= 10;
-		size++;
+		out->d.exp_size++;
 	}
-	if (size < 2 && (p->f.conversion != 'a' && p->f.conversion != 'A'))
-		size = 2;
-	return (size);
+	if (out->d.exp_size < 2 && (conv != 'a' && conv != 'A'))
+		out->d.exp_size = 2;
 }
 
-void	i_part_size(t_p *p, unsigned long i_p)
+void	i_part_size(t_out *out, unsigned long i_p, int base)
 {
-	p->i_size = 0;
+	out->d.i_size = 0;
 	if (i_p == 0)
-		p->i_size++;
+		out->d.i_size++;
 	while (i_p != 0)
 	{
-		i_p /= 10;
-		p->i_size++;
+		i_p /= base;
+		out->d.i_size++;
 	}
 }
 
-void 	f_part_size(t_p *p, unsigned long f_p)
+void 	f_part_size(t_out *out, unsigned long f_p, int base)
 {
-	p->fr_size = 0;
-	p->fr_size += p->zero_fr;
+	out->d.fr_size = 0;
+	out->d.fr_size += out->d.zero_fr;
 	while (f_p != 0)
 	{
-		f_p /= 10;
-		p->fr_size++;
+		f_p /= base;
+		out->d.fr_size++;
 	}
 }
 
-void	round_ipart_for_a(t_p *p)
+void	check_dec_point(t_out *out, long double num, char conv)
 {
-	p->f.precision = 1;
-	round_fract_for_a(p);
-//	printf("i_part->%llx fr_part->%llx\n", p->i_part, p->fr_part);
-	if ((p->fr_part % 16) > 8)
-		p->i_part = p->i_part + 1;
-	p->fr_size = 0;
-	p->dec_point = 0;
-	p->f.precision = 0;
-}
-
-void	a_size(t_p *p, unsigned long i_p, unsigned long f_p)
-{
-	p->i_size = 0;
-	if (i_p == 0)
-		p->i_size++;
-	while (i_p != 0)
-	{
-		i_p /= 16;
-		p->i_size++;
-	}
-	p->fr_size = 0;
-	f_p = p->fr_part;
-	while (f_p != 0)
-	{
-		f_p /= 16;
-		p->fr_size++;
-	}
-	if (p->f.precision)
-		round_fract_for_a(p);
-//	printf("fr->%llx size->%i\n", p->fr_part, p->fr_size);
-	//printf("pres->%i\n", p->f.precision);
-	while ((p->fr_part % 16) == 0 && p->fr_part != 0 && p->fr_size > 0 && !(p->f.precision))
-	{
-//		printf("while\n");
-		p->fr_part /= 16;
-		p->fr_size--;
-	}
-	if (!(p->f.precision) && p->precision)
-		round_ipart_for_a(p);
-}
-
-void	g_size(unsigned long int f_p, t_p *p)
-{
-	while ((p->fr_part % 10) == 0 && p->fr_part != 0 && !(p->prefix) && !(p->exp))
-		p->fr_part /= 10;
-	i_part_size(p, p->i_part);
-	f_part_size(p, p->fr_part);
-	if ((p->i_size + p->fr_size) > p->f.precision)
-	{
-		if (round_parts_for_g(p))
-			return ;
-	}
-	p->fr_size = 0;
-	if (p->fr_part != 0 && p->f.precision != 1 && (p->i_size != p->f.precision))
-	{
-		p->dec_point = 1;
-		p->fr_size += p->zero_fr;
-	}
-	else if (((p->fr_part == 0 && p->f.precision != 1) ||
-		(p->i_size == p->f.precision)) && !(p->prefix))
-		p->dec_point = 0;
-	f_p = p->fr_part;
-	while (f_p != 0 && (p->i_size + p->fr_size) < p->f.precision)
-	{
-		f_p /= 10;
-		p->fr_size++;
-	}
-	(p->i_part == 0 && p->f.precision && p->fr_part != 0) ?
-		(p->fr_size = p->f.precision) : p->fr_size;
+	if ((conv == 'g' || conv == 'G') && (out->f.precision != 1 || num != 0.0 ||
+		out->prefix))
+		out->d.dec_point = 1;
+	else if ((conv == 'a' || conv == 'A') && ((!(!(out->f.precision) && out->precision)) ||
+		num != 0.0 || out->d.fr_part != 0 || out->prefix))
+	 	out->d.dec_point = 1;
 }
