@@ -78,7 +78,6 @@ void	non_justify_operations(t_out *out, t_flags *oper, int i)
 	}
 	else
 	{
-	//	printf("len->%i vallen->%i\n", out->out_len, out->value_len);
 		if (!(out->zero_pad))
 			write(1, out->value, out->value_len);
 		out->out_len += out->value_len;

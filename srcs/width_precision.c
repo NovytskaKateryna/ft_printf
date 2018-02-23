@@ -14,25 +14,22 @@
 
 void	manage_width(t_out *out, int length)
 {
-//	printf("length = %i - %i - %i - %i\n", out->f.width, out->value_len, out->prefix, out->plus_sign);
 	if (out->zero_pad && !(out->left_justify) && !(out->f.precision))
 		return ;
 	length = out->f.width - out->value_len - out->prefix - out->plus_sign;
 	if ((out->value_len - out->minus_sign) < out->f.precision &&
 		out->f.width > out->f.precision)
-		length = out->f.width - (out->f.precision +
-			out->minus_sign + out->plus_sign) - out->space;
+		length = out->f.width - (out->f.precision + out->minus_sign + out->plus_sign);
 	if (out->f.precision > out->f.width ||
-		(out->f.width < out->value_len + out->prefix))
+		(out->f.width < (out->value_len + out->prefix)))
 		length = 0;
 	if ((out->f.conversion == 's') && out->f.precision)
-		{
-			if (out->value_len < out->f.precision)
-				length = out->f.width - out->value_len;
-			else if (out->value_len > out->f.precision)
-				length = out->f.width - out->f.precision;
-		}
-//	printf("len->%i\n", length);
+	{
+		if (out->value_len < out->f.precision)
+			length = out->f.width - out->value_len;
+		else if (out->value_len > out->f.precision)
+			length = out->f.width - out->f.precision;
+	}
 	out->out_len += length;
 	while (length-- > 0)
 		write(1, " ", 1);
@@ -48,7 +45,6 @@ void	manage_max_precision(t_out *out)
 	if (out->value_len > out->f.precision)
 		out->value_len = out->f.precision;
 	out->out_len += length;
-//	printf("len->%i\n", length);
 	while (length-- > 0)
 		write(1, " ", 1);
 	write(1, out->value, out->value_len);
@@ -65,15 +61,13 @@ void	manage_min_precision(t_out *out)
 		if (out->minus_sign)
 			write(1, "-", 1);
 		length = out->f.precision - out->value_len + out->minus_sign;
-	//	 printf("length->%i\n",length );
-		// printf("zro->%i pref->%i\n", out->zero_pad, out->prefix);
 		if (out->prefix == 1)
 			length -= out->prefix;
-	//	printf("length->%i\n",length );
 		out->out_len += length;
 		while (length-- > 0)
 			write(1, "0", 1);
-		write(1, &out->value[out->minus_sign], out->value_len - out->minus_sign);
+		write(1, &out->value[out->minus_sign],
+			out->value_len - out->minus_sign);
 	}
 	else
 		write(1, out->value, out->value_len);

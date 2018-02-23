@@ -31,7 +31,6 @@ void	write_wide_char(unsigned int ch)
 	unsigned char	to_write[4];
 
 	bytes = get_char_bytes(ch);
-//	printf("ch->%u\n", ch);
 	if (bytes == 1)
 		to_write[0] = (char)ch;
 	else if (bytes == 2)
