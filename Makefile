@@ -38,11 +38,11 @@ $(OBJS_PATH):
 $(OBJS_PATH)/%.o: %.c
 	$(FLAGS) -c $< -o $@ $(INCLUDES) 
 
-clean: 
+clean:
+	rm -rf bin objs
 	rm -f $(OBJS)
 
 fclean: clean
-	rm -rf bin objs
 	rm -f $(NAME)
 
 re: fclean all
