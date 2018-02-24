@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 12:44:04 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/11 16:55:43 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/24 15:58:18 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	write_wide_char(unsigned int ch)
 		to_write[2] = ((ch >> 6) & 63) | 128;
 		to_write[3] = (ch & 63) | 128;
 	}
-	write(1, to_write, bytes);
+	(bytes != -1) ? write(1, to_write, bytes) : 0;
 }
 
 int		manage_wide_char_operations(t_out *out, unsigned int *str, int i)
