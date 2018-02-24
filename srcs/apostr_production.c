@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/18 12:48:00 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/18 15:39:04 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/24 13:52:37 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ void	apostr_f_production(t_out *out)
 
 	ap = 0;
 	out->d.i_size = 0;
-	while (out->value[out->d.i_size] != '.' && out->value[out->d.i_size] != '\0')
+	while (out->value[out->d.i_size] != '.' &&
+			out->value[out->d.i_size] != '\0')
 		out->d.i_size++;
 	out->d.fr_size = 0;
 	while (out->value[out->d.i_size + out->d.fr_size] != '\0')

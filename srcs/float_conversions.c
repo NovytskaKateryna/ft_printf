@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 14:11:16 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/21 14:11:18 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/24 13:50:35 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	g_conversion(t_out *out, va_list ar, t_flags *oper)
 void	a_conversion(t_out *out, va_list ar, t_flags *oper)
 {
 	long double	arg;
-	int 		i;
+	int			i;
 
 	if (out->f.modifier == 'L')
 		arg = va_arg(ar, long double);

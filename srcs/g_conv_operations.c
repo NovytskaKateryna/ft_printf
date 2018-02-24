@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 14:14:44 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/22 14:14:45 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/24 13:49:03 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	round_fpart_for_g(t_out *out)
 		n++;
 	out->d.fr_size = n;
 	while (n++ < out->f.precision)
-		((out->d.fr_part % 10) > 5) ? (out->d.fr_part = out->d.fr_part / 10 + 1) :
-				(out->d.fr_part /= 10);
+		((out->d.fr_part % 10) > 5) ?
+			(out->d.fr_part = out->d.fr_part / 10 + 1) : (out->d.fr_part /= 10);
 	if (out->d.fr_part == 0)
 	{
 		if (!(out->prefix))
@@ -36,7 +36,8 @@ void	round_ipart_for_g(t_out *out)
 	if (out->f.precision < out->d.i_size)
 	{
 		while (out->d.i_size-- > out->f.precision)
-			((out->d.i_part % 10) > 5) ? (out->d.i_part = out->d.i_part / 10 + 1) :
+			((out->d.i_part % 10) > 5) ?
+				(out->d.i_part = out->d.i_part / 10 + 1) :
 				(out->d.i_part /= 10);
 	}
 	else if (out->f.precision == 1)
@@ -54,7 +55,7 @@ void	round_ipart_for_g(t_out *out)
 			out->d.i_part += 1;
 	}
 	if (!(out->prefix))
-			out->d.dec_point = 0;
+		out->d.dec_point = 0;
 	out->d.fr_size = 0;
 }
 

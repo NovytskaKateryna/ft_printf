@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 15:49:03 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/17 15:49:04 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/24 13:44:56 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	reset_values(t_out *out)
 t_out	p_initialise(void)
 {
 	t_out out;
-	
+
 	out.out_len = 0;
 	reset_values(&out);
 	return (out);

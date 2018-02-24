@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 14:06:54 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/21 14:06:56 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/24 13:52:03 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	wchar_conversions(t_out *out, va_list ar, t_flags *oper)
 	}
 }
 
-void		char_conversions(t_out *out, va_list ar, t_flags *oper)
+void	char_conversions(t_out *out, va_list ar, t_flags *oper)
 {
 	out->value_len = 1;
 	if (out->f.modifier == 'l')

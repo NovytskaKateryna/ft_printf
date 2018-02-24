@@ -6,13 +6,13 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 16:48:57 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/17 16:02:07 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/24 13:46:50 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int 	is_for_min_precision(char conv)
+int		is_for_min_precision(char conv)
 {
 	if (conv == 'd' || conv == 'D' || conv == 'i' || conv == 'o' ||
 		conv == 'O' || conv == 'u' || conv == 'U' || conv == 'x' ||
@@ -21,7 +21,7 @@ int 	is_for_min_precision(char conv)
 	return (0);
 }
 
-void 	manage_flags(t_out *out, t_flags *oper, int len)
+void	manage_flags(t_out *out, t_flags *oper, int len)
 {
 	int i;
 
@@ -32,10 +32,9 @@ void 	manage_flags(t_out *out, t_flags *oper, int len)
 			++i;
 		oper[(int)out->f.flags[i]](out);
 	}
-
 }
 
-void 	left_justify_operations(t_out *out, t_flags *oper, int i)
+void	left_justify_operations(t_out *out, t_flags *oper, int i)
 {
 	manage_flags(out, oper, i);
 	if ((out->f.precision && out->value && out->precision))

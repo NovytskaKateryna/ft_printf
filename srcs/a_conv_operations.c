@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 14:05:30 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/22 14:05:32 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/24 13:54:25 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	round_fract_for_a(t_out *out)
 {
 	while (out->d.fr_size-- > out->f.precision)
 	{
-		((out->d.fr_part % 16) > 8 ) ?
-		(out->d.fr_part = out->d.fr_part / 16 + 1) : (out->d.fr_part /= 16);
+		((out->d.fr_part % 16) > 8) ?
+			(out->d.fr_part = out->d.fr_part / 16 + 1) : (out->d.fr_part /= 16);
 	}
 	out->d.fr_size = out->f.precision;
 }

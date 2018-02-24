@@ -6,13 +6,13 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 14:06:43 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/21 14:06:45 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/24 13:49:24 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int 	get_base(char conv)
+int		get_base(char conv)
 {
 	if (conv == 'x' || conv == 'X')
 		return (16);

@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 12:04:06 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/15 15:05:32 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/24 13:51:48 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	i_part_size(t_out *out, unsigned long i_p, int base)
 	}
 }
 
-void 	f_part_size(t_out *out, unsigned long f_p, int base)
+void	f_part_size(t_out *out, unsigned long f_p, int base)
 {
 	out->d.fr_size = 0;
 	out->d.fr_size += out->d.zero_fr;
@@ -55,11 +55,11 @@ void	check_dec_point(t_out *out, long double num, char conv)
 	{
 		if (out->f.precision != 1 || num != 0.0 || out->prefix)
 			out->d.dec_point = 1;
-		
 	}
 	else if (conv == 'a' || conv == 'A')
 	{
-	 	if ((num != 0.0 && out->d.fr_part != 0) || out->f.precision || out->prefix)
-	 		out->d.dec_point = 1;
+		if ((num != 0.0 && out->d.fr_part != 0) ||
+				out->f.precision || out->prefix)
+			out->d.dec_point = 1;
 	}
 }

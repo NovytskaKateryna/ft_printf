@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 17:32:18 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/21 17:32:24 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/24 13:43:54 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		is_signed_conversion(char conv)
 	return (0);
 }
 
-int 	is_unsigned_conversion(char conv)
+int		is_unsigned_conversion(char conv)
 {
 	if (conv == 'x' || conv == 'X' || conv == 'o' || conv == 'O' ||
 		conv == 'u' || conv == 'U')
@@ -66,7 +66,8 @@ void	put_marks(t_out *out, int i, char conv)
 	{
 		if (out->f.flags[i] == '-')
 			out->left_justify = 1;
-		else if (out->f.flags[i] == '+' && is_signed_conversion(conv) && !(out->minus_sign))
+		else if (out->f.flags[i] == '+' && is_signed_conversion(conv) &&
+				!(out->minus_sign))
 			out->plus_sign = 1;
 		else if ((out->f.flags[i] == ' ' || out->f.flags[i] == '+') &&
 			is_signed_conversion(conv) && !(out->minus_sign) && !(out->pointer))

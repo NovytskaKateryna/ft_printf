@@ -6,7 +6,7 @@
 /*   By: knovytsk <knovytsk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 10:20:24 by knovytsk          #+#    #+#             */
-/*   Updated: 2018/02/11 16:57:27 by knovytsk         ###   ########.fr       */
+/*   Updated: 2018/02/24 13:49:46 by knovytsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_printf(const char *format, ...)
 {
 	int		ret;
-	t_out 	output;
+	t_out	output;
 	va_list	args_ptr;
 
 	output = p_initialise();
