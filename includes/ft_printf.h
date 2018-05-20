@@ -16,7 +16,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
-# include <stdio.h>
 
 # define RED_TEXT "\033[31;1m"
 # define GREEN_TEXT "\033[32;1m"

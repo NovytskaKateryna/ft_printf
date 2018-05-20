@@ -21,31 +21,30 @@ int		is_non_printable(char c)
 	return (0);
 }
 
-void	write_non_pritable(char *s, char c)
+void	write_non_pritable(char *ch, char c)
 {
-	if (is_non_printable(*s))
+	if (is_non_printable(*ch))
 		c = 92;
-	s++;
 	write(1, &c, 1);
-	if ((*s >= 1 && *s <= 6) || (*s >= 14 && *s <= 31))
-		c = *s + 64;
-	else if (*s == '\0')
+	if ((*ch >= 1 && *ch <= 6) || (*ch >= 14 && *ch <= 31))
+		c = *ch + 64;
+	else if (*ch == '\0')
 		c = '0';
-	else if (*s == '\a')
+	else if (*ch == '\a')
 		c = 'a';
-	else if (*s == '\b')
+	else if (*ch == '\b')
 		c = 'b';
-	else if (*s == '\t')
+	else if (*ch == '\t')
 		c = 't';
-	else if (*s == '\n')
+	else if (*ch == '\n')
 		c = 'n';
-	else if (*s == '\v')
+	else if (*ch == '\v')
 		c = 'v';
-	else if (*s == '\f')
+	else if (*ch == '\f')
 		c = 'f';
-	else if (*s == '\r')
+	else if (*ch == '\r')
 		c = 'r';
-	else if (*s == '\e')
+	else if (*ch == '\e')
 		c = 'e';
 	write(1, &c, 1);
 }
@@ -64,12 +63,14 @@ void	non_print_conversion(t_out *out, va_list ar, t_flags *oper)
 		((str[n] >= 0 && str[n] <= 31) || str[n] == 127 ||
 			str[n + 1] == 0) ? (len += 1) : len;
 	len += n;
+	n++;
 	out->out_len += len;
-	while (len-- > 0)
+	while (n-- > 0)
 	{
 		if (*str >= 0 && *str <= 31)
 			write_non_pritable(str, 94);
-		write(1, &str, 1);
+		else
+			write(1, &*str, 1);
 		str++;
 	}
 }

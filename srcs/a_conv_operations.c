@@ -45,7 +45,7 @@ void	a_size(t_out *out)
 		out->d.fr_part /= 16;
 		out->d.fr_size--;
 	}
-	if (!(out->f.precision) && out->precision)
+	if ((!(out->f.precision) && out->precision) || out->d.fr_part == 0)
 		round_ipart_for_a(out);
 }
 
@@ -75,7 +75,7 @@ void	get_exponent_for_a(t_out *out, long double num)
 	out->d.exp = 0;
 	if (num >= 1.99)
 	{
-		while (num >= 2.00)
+		while (num >= 1.99)
 		{
 			out->d.exp++;
 			num /= 2;
@@ -84,7 +84,7 @@ void	get_exponent_for_a(t_out *out, long double num)
 	}
 	else if (num <= 1.0)
 	{
-		while (num <= 1.0)
+		while (num < 1.0)
 		{
 			out->d.exp++;
 			num *= 2;

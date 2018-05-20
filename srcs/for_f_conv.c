@@ -63,6 +63,8 @@ char	*for_f_conv(t_out *out, long double num)
 	(!(out->f.precision) && out->precision) ? 0 : (out->d.dec_point = 1);
 	out->d.fr_size = out->f.precision;
 	i_part_size(out, out->d.i_part, 10);
+	if (out->prefix)
+		out->d.dec_point = 1;
 	size = out->d.i_size + out->d.fr_size + out->minus_sign + out->d.dec_point;
 	if (!(str = (char*)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
